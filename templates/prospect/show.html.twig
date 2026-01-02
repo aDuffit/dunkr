@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Prospect{% endblock %}
+
+{% block body %}
+    <div class="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-3xl shadow-2xl border border-gray-100">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+
+            {# Côté Gauche : Photo et Note Globale #}
+            <div class="text-center border-r border-gray-100 p-6">
+                <div class="relative inline-block">
+                    <div class="w-32 h-32 bg-indigo-600 rounded-full mx-auto flex items-center justify-center text-white text-4xl font-bold">
+                        {{ (prospect.pointsAvg + prospect.reboundsAvg) | round }} {# Note globale simplifiée #}
+                    </div>
+                    <span class="absolute bottom-0 right-0 bg-yellow-400 text-xs font-bold px-2 py-1 rounded">PROSPECT</span>
+                </div>
+                <h1 class="text-3xl font-black mt-4 uppercase tracking-tighter">{{ prospect.name }}</h1>
+                <p class="text-gray-400 font-medium">TEAM : {{ prospect.team }}</p>
+            </div>
+
+            {# Côté Droit : Le Graphique Radar #}
+            <div class="p-4 bg-gray-50 rounded-2xl">
+                {{ render_chart(chart) }}
+            </div>
+        </div>
+
+        {# Stats détaillées en bas #}
+        <div class="grid grid-cols-3 gap-4 mt-8 text-center">
+            <div class="bg-gray-50 p-3 rounded-xl">
+                <span class="block text-2xl font-bold text-indigo-600">{{ prospect.pointsAvg }}</span>
+                <span class="text-xs text-gray-500 uppercase font-semibold">Points</span>
+            </div>
+            <div class="bg-gray-50 p-3 rounded-xl">
+                <span class="block text-2xl font-bold text-indigo-600">{{ prospect.reboundsAvg }}</span>
+                <span class="text-xs text-gray-500 uppercase font-semibold">Rebonds</span>
+            </div>
+            <div class="bg-gray-50 p-3 rounded-xl">
+                <span class="block text-2xl font-bold text-indigo-600">{{ prospect.assistsAvg }}</span>
+                <span class="text-xs text-gray-500 uppercase font-semibold">Passes</span>
+            </div>
+        </div>
+    </div>
+{% endblock %}

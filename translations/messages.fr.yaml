@@ -1,0 +1,9 @@
+form:
+  placeholder_search_prospect: "rechercher des prospects (ex: Wembanyama)"
+prospect:
+  list:
+    name: nom
+    points-avg: points
+    rebounds-avg: rebonds
+    assists-avg: passes
+    no-result: aucun résultat
