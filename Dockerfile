@@ -39,7 +39,7 @@ ENV APP_ENV=prod
 # On vide aussi le cache avant pour être sûr de partir sur du propre
 RUN mkdir -p var/cache var/log var/sessions
 RUN chown -R www-data:www-data var/ || true
-RUN && chmod -R 777 var/ || true
+RUN chmod -R 777 var/ || true
 # 1. On génère le binaire Tailwind et on build le CSS
 RUN php bin/console tailwind:build --minify
 RUN php bin/console asset-map:compile
