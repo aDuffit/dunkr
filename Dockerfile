@@ -38,7 +38,10 @@ ENV APP_ENV=prod
 # On définit une DATABASE_URL bidon pour empêcher Symfony de râler pendant le build
 # On vide aussi le cache avant pour être sûr de partir sur du propre
 RUN mkdir -p var/cache var/log var/sessions
-RUN chown -R www-data:www-data var/
+RUN chown -R www-data:www-data var/ || true
+RUN && chmod -R 777 var/ || true
+# 1. On génère le binaire Tailwind et on build le CSS
+RUN php bin/console tailwind:build --minify
 RUN php bin/console asset-map:compile
 
 # 9. Script de démarrage (Migrations + Nginx + FPM)
