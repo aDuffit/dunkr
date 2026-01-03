@@ -16,35 +16,37 @@ final class ImportController extends AbstractController
     #[Route('/player', name: 'app_import_player', methods: ['GET'])]
     public function import(EntityManagerInterface $em, HttpClientInterface $client): Response
     {
-        $response = $client->request('GET', 'https://www.basketball-reference.com/international/euroleague/2026_totals.html', [
-            'headers' => [
-                'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                'Accept-Language' => 'en-US,en;q=0.9',
-                'Referer' => 'https://basketball.realgm.com/',
-            ]]);
+        $response = $client->request('GET', 'https://www.basketball-reference.com/international/euroleague/2026_totals.html');
         $crawler = new Crawler($response->getContent());
 
-        // 2. Créer le dictionnaire des colonnes par TEXTE
-//        $columnMap = [];
-//        $crawler->filterXPath('//thead/tr/th')->each(function (Crawler $node, $i) use (&$columnMap) {
-//            $title = trim($node->text());
-//            if ($title) {
-//                $columnMap[$title] = $i + 1; // XPath commence à 1
-//            }
-//        });
-//
-//        // 3. Importer les lignes
-//        $crawler->filterXPath('//tbody/tr')->each(function (Crawler $node) use ($columnMap, $em) {
-//            $player = new Player();
-//            $player->setName($node->filterXPath('//td[' . $columnMap['Player'] . ']')->text());
+
+        // On cible spécifiquement le tableau des totaux
+        $rows = $crawler->filterXPath('//table[contains(@id, "totals-stats")]/tbody/tr[not(contains(@class, "thead"))]');
+
+        $rows->each(function (Crawler $node) use ($em) {
+            $player = new Player();
+            $player->setName($node->filterXPath('.//th[@data-stat="player"]')->text('Inconnu'));
 //            $player->setPointsAvg((float) $node->filterXPath('//td[' . $columnMap['PPG'] . ']')->text());
 //            $player->setReboundsAvg((float) $node->filterXPath('//td[' . $columnMap['RPG'] . ']')->text());
 //            $player->setAssistsAvg((float) $node->filterXPath('//td[' . $columnMap['APG'] . ']')->text());
-//
-//            $em->persist($player);
-//        });
-//
-//        $em->flush();
+
+
+//            return [
+//                'name'      => $node->filterXPath('.//td[@data-stat="player"]')->text('Inconnu'),
+//                'team'      => $node->filterXPath('.//td[@data-stat="team_id"]')->text('N/A'),
+//                'games'     => (int) $node->filterXPath('.//td[@data-stat="g"]')->text(0),
+//                'minutes'   => (int) $node->filterXPath('.//td[@data-stat="mp"]')->text(0),
+//                'points'    => (int) $node->filterXPath('.//td[@data-stat="pts"]')->text(0),
+//                'rebounds'  => (int) $node->filterXPath('.//td[@data-stat="trb"]')->text(0),
+//                'assists'   => (int) $node->filterXPath('.//td[@data-stat="ast"]')->text(0),
+//                'steals'    => (int) $node->filterXPath('.//td[@data-stat="stl"]')->text(0),
+//                'blocks'    => (int) $node->filterXPath('.//td[@data-stat="blk"]')->text(0),
+//            ];
+
+            $em->persist($player);
+        });
+
+        $em->flush();
 
         return new Response("Les joueurs ont été importés dans SQLite !");
     }

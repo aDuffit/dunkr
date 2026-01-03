@@ -20,13 +20,55 @@ class Player
     private ?string $team = null;
 
     #[ORM\Column(options: ['default' => 0])]
-    private float $pointsAvg = 0;
+    private int $points = 0;
 
     #[ORM\Column(options: ['default' => 0])]
-    private float $reboundsAvg = 0;
+    private int $rebounds = 0;
 
     #[ORM\Column(options: ['default' => 0])]
-    private float $assistsAvg = 0;
+    private int $assists = 0;
+
+    #[ORM\Column(options: ['default' => 0])]
+    private int $games = 0;
+
+    #[ORM\Column(options: ['default' => 0])]
+    private int $minutesPlayed = 0;
+
+    #[ORM\Column(options: ['default' => 0])]
+    private int $fieldsGoals = 0;
+
+    #[ORM\Column(options: ['default' => 0])]
+    private int $fieldsGoalsAttempts = 0;
+
+    #[ORM\Column(options: ['default' => 0])]
+    private int $threeFieldsGoals = 0;
+
+    #[ORM\Column(options: ['default' => 0])]
+    private int $threeFieldsGoalsAttempts = 0;
+
+    #[ORM\Column(options: ['default' => 0])]
+    private int $freeThrows = 0;
+
+    #[ORM\Column(options: ['default' => 0])]
+    private int $freeThrowsAttempts = 0;
+
+    #[ORM\Column(options: ['default' => 0])]
+    private int $offensiveRebounds = 0;
+
+    #[ORM\Column(options: ['default' => 0])]
+    private int $defensiveRebounds = 0;
+
+    #[ORM\Column(options: ['default' => 0])]
+    private int $steals = 0;
+
+    #[ORM\Column(options: ['default' => 0])]
+    private int $blocks = 0;
+
+    #[ORM\Column(options: ['default' => 0])]
+    private int $turnovers = 0;
+
+    #[ORM\Column(options: ['default' => 0])]
+    private int $personalFouls = 0;
 
     public function getId(): ?int
     {
@@ -57,38 +99,206 @@ class Player
         return $this;
     }
 
-    public function getPointsAvg(): ?float
+    public function getPoints(): ?int
     {
-        return $this->pointsAvg;
+        return $this->points;
     }
 
-    public function setPointsAvg(?float $pointsAvg): static
+    public function setPoints(int $points): static
     {
-        $this->pointsAvg = $pointsAvg;
+        $this->points = $points;
 
         return $this;
     }
 
-    public function getReboundsAvg(): ?float
+    public function getRebounds(): ?int
     {
-        return $this->reboundsAvg;
+        return $this->rebounds;
     }
 
-    public function setReboundsAvg(?float $reboundsAvg): static
+    public function setRebounds(int $rebounds): static
     {
-        $this->reboundsAvg = $reboundsAvg;
+        $this->rebounds = $rebounds;
 
         return $this;
     }
 
-    public function getAssistsAvg(): ?float
+    public function getAssists(): ?int
     {
-        return $this->assistsAvg;
+        return $this->assists;
     }
 
-    public function setAssistsAvg(float $assistsAvg): static
+    public function setAssists(int $assists): static
     {
-        $this->assistsAvg = $assistsAvg;
+        $this->assists = $assists;
+
+        return $this;
+    }
+
+    public function getGames(): ?int
+    {
+        return $this->games;
+    }
+
+    public function setGames(int $games): static
+    {
+        $this->games = $games;
+
+        return $this;
+    }
+
+    public function getMinutesPlayed(): ?int
+    {
+        return $this->minutesPlayed;
+    }
+
+    public function setMinutesPlayed(int $minutesPlayed): static
+    {
+        $this->minutesPlayed = $minutesPlayed;
+
+        return $this;
+    }
+
+    public function getFieldsGoals(): ?int
+    {
+        return $this->fieldsGoals;
+    }
+
+    public function setFieldsGoals(int $fieldsGoals): static
+    {
+        $this->fieldsGoals = $fieldsGoals;
+
+        return $this;
+    }
+
+    public function getFieldsGoalsAttempts(): ?int
+    {
+        return $this->fieldsGoalsAttempts;
+    }
+
+    public function setFieldsGoalsAttempts(int $fieldsGoalsAttempts): static
+    {
+        $this->fieldsGoalsAttempts = $fieldsGoalsAttempts;
+
+        return $this;
+    }
+
+    public function getThreeFieldsGoals(): ?int
+    {
+        return $this->threeFieldsGoals;
+    }
+
+    public function setThreeFieldsGoals(int $threeFieldsGoals): static
+    {
+        $this->threeFieldsGoals = $threeFieldsGoals;
+
+        return $this;
+    }
+
+    public function getThreeFieldsGoalsAttempts(): ?int
+    {
+        return $this->threeFieldsGoalsAttempts;
+    }
+
+    public function setThreeFieldsGoalsAttempts(int $threeFieldsGoalsAttempts): static
+    {
+        $this->threeFieldsGoalsAttempts = $threeFieldsGoalsAttempts;
+
+        return $this;
+    }
+
+    public function getFreeThrows(): ?int
+    {
+        return $this->freeThrows;
+    }
+
+    public function setFreeThrows(int $freeThrows): static
+    {
+        $this->freeThrows = $freeThrows;
+
+        return $this;
+    }
+
+    public function getFreeThrowsAttempts(): ?int
+    {
+        return $this->freeThrowsAttempts;
+    }
+
+    public function setFreeThrowsAttempts(int $freeThrowsAttempts): static
+    {
+        $this->freeThrowsAttempts = $freeThrowsAttempts;
+
+        return $this;
+    }
+
+    public function getOffensiveRebounds(): ?int
+    {
+        return $this->offensiveRebounds;
+    }
+
+    public function setOffensiveRebounds(int $offensiveRebounds): static
+    {
+        $this->offensiveRebounds = $offensiveRebounds;
+
+        return $this;
+    }
+
+    public function getDefensiveRebounds(): ?int
+    {
+        return $this->defensiveRebounds;
+    }
+
+    public function setDefensiveRebounds(int $defensiveRebounds): static
+    {
+        $this->defensiveRebounds = $defensiveRebounds;
+
+        return $this;
+    }
+
+    public function getSteals(): ?int
+    {
+        return $this->steals;
+    }
+
+    public function setSteals(int $steals): static
+    {
+        $this->steals = $steals;
+
+        return $this;
+    }
+
+    public function getBlocks(): ?int
+    {
+        return $this->blocks;
+    }
+
+    public function setBlocks(int $blocks): static
+    {
+        $this->blocks = $blocks;
+
+        return $this;
+    }
+
+    public function getTurnovers(): ?int
+    {
+        return $this->turnovers;
+    }
+
+    public function setTurnovers(int $turnovers): static
+    {
+        $this->turnovers = $turnovers;
+
+        return $this;
+    }
+
+    public function getPersonalFouls(): ?int
+    {
+        return $this->personalFouls;
+    }
+
+    public function setPersonalFouls(int $personalFouls): static
+    {
+        $this->personalFouls = $personalFouls;
 
         return $this;
     }
