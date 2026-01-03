@@ -12,7 +12,7 @@
             <div class="flex p-4 items-start justify-between">
                 <div class="text-center">
                     <div class="text-4xl font-black text-yellow-400 italic leading-none">
-                        {{ (player.pointsAvg + player.reboundsAvg)|round }}
+                        {{ this.overallRating }}
                     </div>
                     <div class="text-[10px] font-bold text-yellow-500 uppercase tracking-widest mt-1">
                         {{ player.position|default('N/A') }}

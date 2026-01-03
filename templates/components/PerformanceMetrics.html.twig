@@ -11,6 +11,10 @@
                     <span class="text-xl font-black italic {{ val2 and val1 > val2 ? 'text-green-400' : 'text-white' }}">
                         {{ val1|round(1) }}
                     </span>
+                    {# À côté de la valeur numérique #}
+                    <span class="ml-2 px-1.5 py-0.5 rounded bg-slate-700 text-[9px] font-black text-indigo-400 border border-indigo-500/30">
+                        {{ this.getGrade(val1, metric.max) }}
+                    </span>
                     <span class="text-[10px] text-slate-500 font-bold uppercase">/{{ metric.max }}</span>
                 </div>
 

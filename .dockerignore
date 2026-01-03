@@ -1,0 +1,7 @@
+# .dockerignore
+.git
+.env.local
+var/cache
+var/log
+vendor/
+node_modules/
