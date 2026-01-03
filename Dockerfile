@@ -62,6 +62,4 @@ EXPOSE 80
 
 # On lance les migrations ET les services directement ici
 # Le "&&" fait que si les migrations échouent, le serveur ne démarre pas (utile pour voir l'erreur dans les logs)
-CMD php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
-CMD php-fpm -D
-CMD nginx -g "daemon off;"
+CMD php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration && php-fpm -D && nginx -g "daemon off;"
