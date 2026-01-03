@@ -8,11 +8,6 @@ framework:
     #esi: true
     #fragments: true
 
-    http_client:
-        default_options:
-            headers:
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ...'
-
 when@test:
     framework:
         test: true

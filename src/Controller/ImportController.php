@@ -16,31 +16,35 @@ final class ImportController extends AbstractController
     #[Route('/player', name: 'app_import_player', methods: ['GET'])]
     public function import(EntityManagerInterface $em, HttpClientInterface $client): Response
     {
-        $response = $client->request('GET', 'https://google.com');
-//        $response = $client->request('GET', 'https://basketball.realgm.com/international/league/1/Euroleague/stats');
-//        $crawler = new Crawler($response->getContent());
-//
-//        // 2. Créer le dictionnaire des colonnes par TEXTE
-//        $columnMap = [];
-//        $crawler->filterXPath('//thead/tr/th')->each(function (Crawler $node, $i) use (&$columnMap) {
-//            $title = trim($node->text());
-//            if ($title) {
-//                $columnMap[$title] = $i + 1; // XPath commence à 1
-//            }
-//        });
-//
-//        // 3. Importer les lignes
-//        $crawler->filterXPath('//tbody/tr')->each(function (Crawler $node) use ($columnMap, $em) {
-//            $player = new Player();
-//            $player->setName($node->filterXPath('//td[' . $columnMap['Player'] . ']')->text());
-//            $player->setPointsAvg((float) $node->filterXPath('//td[' . $columnMap['PPG'] . ']')->text());
-//            $player->setReboundsAvg((float) $node->filterXPath('//td[' . $columnMap['RPG'] . ']')->text());
-//            $player->setAssistsAvg((float) $node->filterXPath('//td[' . $columnMap['APG'] . ']')->text());
-//
-//            $em->persist($player);
-//        });
-//
-//        $em->flush();
+        $response = $client->request('GET', 'https://basketball.realgm.com/international/league/1/Euroleague/stats', [
+            'headers' => [
+                'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept-Language' => 'en-US,en;q=0.9',
+                'Referer' => 'https://basketball.realgm.com/',
+            ]]);
+        $crawler = new Crawler($response->getContent());
+
+        // 2. Créer le dictionnaire des colonnes par TEXTE
+        $columnMap = [];
+        $crawler->filterXPath('//thead/tr/th')->each(function (Crawler $node, $i) use (&$columnMap) {
+            $title = trim($node->text());
+            if ($title) {
+                $columnMap[$title] = $i + 1; // XPath commence à 1
+            }
+        });
+
+        // 3. Importer les lignes
+        $crawler->filterXPath('//tbody/tr')->each(function (Crawler $node) use ($columnMap, $em) {
+            $player = new Player();
+            $player->setName($node->filterXPath('//td[' . $columnMap['Player'] . ']')->text());
+            $player->setPointsAvg((float) $node->filterXPath('//td[' . $columnMap['PPG'] . ']')->text());
+            $player->setReboundsAvg((float) $node->filterXPath('//td[' . $columnMap['RPG'] . ']')->text());
+            $player->setAssistsAvg((float) $node->filterXPath('//td[' . $columnMap['APG'] . ']')->text());
+
+            $em->persist($player);
+        });
+
+        $em->flush();
 
         return new Response("Les joueurs ont été importés dans SQLite !");
     }
