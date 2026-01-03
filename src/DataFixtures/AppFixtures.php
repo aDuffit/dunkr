@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Factory\ProspectFactory;
+use App\Factory\PlayerFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -10,7 +10,7 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-         $prospect = ProspectFactory::createMany(2);
+         PlayerFactory::createMany(2);
 
         $manager->flush();
     }

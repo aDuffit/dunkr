@@ -2,13 +2,13 @@
 
 namespace App\Factory;
 
-use App\Entity\Prospect;
+use App\Entity\Player;
 use Zenstruck\Foundry\Persistence\PersistentObjectFactory;
 
 /**
- * @extends PersistentObjectFactory<Prospect>
+ * @extends PersistentObjectFactory<Player>
  */
-final class ProspectFactory extends PersistentObjectFactory
+final class PlayerFactory extends PersistentObjectFactory
 {
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
@@ -22,7 +22,7 @@ final class ProspectFactory extends PersistentObjectFactory
     #[\Override]
     public static function class(): string
     {
-        return Prospect::class;
+        return Player::class;
     }
 
     /**
@@ -48,8 +48,6 @@ final class ProspectFactory extends PersistentObjectFactory
     #[\Override]
     protected function initialize(): static
     {
-        return $this
-            // ->afterInstantiate(function(Prospect $prospect): void {})
-        ;
+        return $this;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Prospect;
+use App\Entity\Player;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DomCrawler\Crawler;
@@ -13,7 +13,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 #[Route('/import')]
 final class ImportController extends AbstractController
 {
-    #[Route('/prospects', name: 'app_import_prospects', methods: ['GET'])]
+    #[Route('/player', name: 'app_import_player', methods: ['GET'])]
     public function import(EntityManagerInterface $em, HttpClientInterface $client): Response
     {
         $response = $client->request('GET', 'https://basketball.realgm.com/international/league/1/Euroleague/stats');
@@ -30,17 +30,17 @@ final class ImportController extends AbstractController
 
         // 3. Importer les lignes
         $crawler->filterXPath('//tbody/tr')->each(function (Crawler $node) use ($columnMap, $em) {
-            $prospect = new Prospect();
-            $prospect->setName($node->filterXPath('//td[' . $columnMap['Player'] . ']')->text());
-            $prospect->setPointsAvg((float) $node->filterXPath('//td[' . $columnMap['PPG'] . ']')->text());
-            $prospect->setReboundsAvg((float) $node->filterXPath('//td[' . $columnMap['RPG'] . ']')->text());
-            $prospect->setAssistsAvg((float) $node->filterXPath('//td[' . $columnMap['APG'] . ']')->text());
+            $player = new Player();
+            $player->setName($node->filterXPath('//td[' . $columnMap['Player'] . ']')->text());
+            $player->setPointsAvg((float) $node->filterXPath('//td[' . $columnMap['PPG'] . ']')->text());
+            $player->setReboundsAvg((float) $node->filterXPath('//td[' . $columnMap['RPG'] . ']')->text());
+            $player->setAssistsAvg((float) $node->filterXPath('//td[' . $columnMap['APG'] . ']')->text());
 
-            $em->persist($prospect);
+            $em->persist($player);
         });
 
         $em->flush();
 
-        return new Response("Les prospects ont été importés dans SQLite !");
+        return new Response("Les joueurs ont été importés dans SQLite !");
     }
 }

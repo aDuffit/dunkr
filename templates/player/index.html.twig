@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Player index{% endblock %}
+
+{% block body %}
+    {{ component('Breadcrumb', {
+        links: [
+            { label: 'Player Database' }
+        ]
+    }) }}
+
+    {{ component('PlayerList') }}
+{% endblock %}

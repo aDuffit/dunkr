@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}player{% endblock %}
+
+{% block body %}
+    <div class="min-h-screen bg-slate-50 pb-20">
+
+        {# 1. Breadcrumb aligné #}
+        {{ component('Breadcrumb', {
+            links: [
+                { label: 'Player Database', url: path('app_player_index') },
+                { label: player.name }
+            ]
+        }) }}
+
+        {# 2. L'Engine de comparaison #}
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            {{ component('PlayerComparison', { player: player }) }}
+        </div>
+
+    </div>
+{% endblock %}

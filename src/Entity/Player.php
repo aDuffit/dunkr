@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\ProspectRepository;
+use App\Repository\PlayerRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ProspectRepository::class)]
-class Prospect
+#[ORM\Entity(repositoryClass: PlayerRepository::class)]
+class Player
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

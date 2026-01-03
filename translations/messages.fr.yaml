@@ -1,6 +1,6 @@
 form:
-  placeholder_search_prospect: "rechercher des prospects (ex: Wembanyama)"
-prospect:
+  placeholder_search_player: "rechercher des joueurs (ex: Wembanyama)"
+player:
   list:
     name: nom
     points-avg: points

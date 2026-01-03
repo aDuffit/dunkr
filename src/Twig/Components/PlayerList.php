@@ -2,7 +2,7 @@
 
 namespace App\Twig\Components;
 
-use App\Repository\ProspectRepository;
+use App\Repository\PlayerRepository;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
@@ -10,7 +10,7 @@ use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 
 #[AsLiveComponent]
-final class ProspectList
+final class PlayerList
 {
     use DefaultActionTrait;
 
@@ -28,7 +28,7 @@ final class ProspectList
 
     private const PER_PAGE = 20; // Nombre de joueurs par page
 
-    public function __construct(private readonly ProspectRepository $prospectRepository) {}
+    public function __construct(private readonly PlayerRepository $playerRepository) {}
 
     #[LiveAction]
     public function changeSort(#[LiveArg] string $field): void
@@ -42,10 +42,10 @@ final class ProspectList
         }
     }
 
-    public function getProspects(): array
+    public function getPlayers(): array
     {
         // On cherche les joueurs dont le nom contient la recherche
-        return $this->prospectRepository->createQueryBuilder('p')
+        return $this->playerRepository->createQueryBuilder('p')
             ->where('p.name LIKE :q')
             ->setParameter('q', '%'.$this->query.'%')
             ->orderBy('p.' . $this->sortField, $this->sortDirection)
@@ -58,7 +58,7 @@ final class ProspectList
     // Utile pour afficher "Page X sur Y"
     public function getTotalPages(): int
     {
-        $count = $this->prospectRepository->createQueryBuilder('p')
+        $count = $this->playerRepository->createQueryBuilder('p')
             ->select('COUNT(p.id)')
             ->where('p.name LIKE :q')
             ->setParameter('q', '%' . $this->query . '%')

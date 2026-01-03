@@ -1,0 +1,127 @@
+<div {{ attributes }} class="mx-auto">
+
+    {# --- SECTION RECHERCHE --- #}
+    <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 px-4">
+        <div>
+            <h2 class="text-3xl font-black text-slate-800 uppercase italic tracking-tighter">Scouting Board</h2>
+            <p class="text-slate-500 font-bold text-xs uppercase">Dunkr Database / Live Stats</p>
+        </div>
+
+        <div class="relative group">
+            <input
+                type="search"
+                data-model="debounce(500)|query"
+                placeholder="{{ 'form.placeholder_search_player'|trans }}"
+                class="disabled:opacity-50 bg-white border-2 border-slate-200 rounded-full px-6 py-3 w-80 outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100 transition-all font-bold text-sm uppercase italic"
+                data-loading="addAttribute(disabled)"
+            >
+            <div class="absolute right-4 top-3" data-loading="show">
+                <span class="animate-spin inline-block">🏀</span>
+            </div>
+        </div>
+    </div>
+
+    {# --- TABLEAU STYLE FIFA --- #}
+    <div class="overflow-x-auto p-2">
+        <table class="w-full border-separate border-spacing-y-3">
+            <thead>
+            <tr class="text-slate-400 text-[10px] uppercase tracking-[0.2em] font-black">
+                <th class="px-6 py-2 text-left">Player / Team</th>
+                {# Colonne Triable PTS #}
+                <th class="px-6 py-2 text-center cursor-pointer group"
+                    data-action="click->live#action"
+                    data-live-action-param="changeSort"
+                    data-live-field-param="pointsAvg">
+                    <div class="flex items-center justify-center gap-1">
+                        PTS {% if sortField == 'pointsAvg' %}{{ sortDirection == 'DESC' ? '▼' : '▲' }}{% endif %}
+                    </div>
+                </th>
+                <th class="px-6 py-2 text-center cursor-pointer group"
+                    data-action="click->live#action"
+                    data-live-action-param="changeSort"
+                    data-live-field-param="reboundsAvg">
+                    <div class="flex items-center justify-center gap-1">
+                        REB {% if sortField == 'reboundsAvg' %}{{ sortDirection == 'DESC' ? '▼' : '▲' }}{% endif %}
+                    </div>
+                </th>
+                <th class="px-6 py-2 text-center cursor-pointer group"
+                    data-action="click->live#action"
+                    data-live-action-param="changeSort"
+                    data-live-field-param="assistsAvg">
+                    <div class="flex items-center justify-center gap-1">
+                        AST {% if sortField == 'assistsAvg' %}{{ sortDirection == 'DESC' ? '▼' : '▲' }}{% endif %}
+                    </div>
+                </th>
+                <th class="px-6 py-2 text-right"></th>
+            </tr>
+            </thead>
+
+            <tbody data-loading="addClass(opacity-50)">
+            {% for player in this.players %}
+                <tr class="bg-white hover:scale-[1.01] transition-all shadow-md group border border-transparent hover:border-indigo-300">
+                    <td class="px-6 py-4 rounded-l-2xl border-y border-l border-gray-100">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-slate-800 text-yellow-400 rounded-lg flex items-center justify-center font-black text-xl italic border-b-4 border-yellow-500 shadow-inner">
+                                {{ (player.pointsAvg + player.reboundsAvg)|round }}
+                            </div>
+                            <div>
+                                <div class="font-black text-slate-800 uppercase italic text-lg leading-none">{{ player.name }}</div>
+                                <div class="text-[10px] text-indigo-500 font-black uppercase tracking-widest mt-1">{{ player.team }}</div>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td class="px-6 py-4 text-center border-y border-gray-100">
+                            <span class="text-lg font-black {{ player.pointsAvg > 20 ? 'text-green-500' : 'text-slate-700' }}">
+                                {{ player.pointsAvg|round(1) }}
+                            </span>
+                    </td>
+
+                    <td class="px-6 py-4 text-center border-y border-gray-100 font-bold text-slate-600">
+                        {{ player.reboundsAvg|round(1) }}
+                    </td>
+
+                    <td class="px-6 py-4 text-center border-y border-gray-100 font-bold text-slate-600">
+                        {{ player.assistsAvg|round(1) }}
+                    </td>
+
+                    <td class="px-6 py-4 text-right rounded-r-2xl border-y border-r border-gray-100">
+                        <a href="{{ path('app_player_show', {id: player.id}) }}" class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-black italic text-xs uppercase hover:bg-slate-900 transition-colors">
+                            View Card
+                        </a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" class="text-center py-10 text-slate-400 italic font-bold">Aucun joueur trouvé pour "{{ query }}"...</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {# --- PAGINATION STYLE FIFA --- #}
+    {% if this.totalPages > 1 %}
+        <div class="mt-8 flex items-center justify-center gap-4 pb-10">
+            <button
+                    data-action="live#update" data-model="debounce(0)|page" data-value="{{ page - 1 }}"
+                    {{ page <= 1 ? 'disabled' : '' }}
+                    class="cursor-pointer w-12 h-12 flex items-center justify-center bg-white border-2 border-slate-200 rounded-full hover:border-indigo-600 disabled:opacity-30 transition-all font-black"
+            >
+                ←
+            </button>
+
+            <div class="bg-white px-6 py-2 rounded-full border-2 border-slate-200 font-black italic text-sm uppercase tracking-tighter">
+                Page <span class="text-indigo-600">{{ page }}</span> / {{ this.totalPages }}
+            </div>
+
+            <button
+                    data-action="live#update" data-model="debounce(0)|page" data-value="{{ page + 1 }}"
+                    {{ page >= this.totalPages ? 'disabled' : '' }}
+                    class="cursor-pointer w-12 h-12 flex items-center justify-center bg-white border-2 border-slate-200 rounded-full hover:border-indigo-600 disabled:opacity-30 transition-all font-black"
+            >
+                →
+            </button>
+        </div>
+    {% endif %}
+</div>
