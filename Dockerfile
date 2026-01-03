@@ -8,15 +8,11 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     libzip-dev \
     libsqlite3-dev \
-    docker-php-ext-install pdo_sqlite \
     zip \
     unzip \
     git \
     && docker-php-ext-install intl pdo pdo_pgsql zip \
     && pecl install apcu && docker-php-ext-enable apcu
-
-# Créer un dossier pour la base de données persistante
-RUN mkdir -p /var/data && chown -R www-data:www-data /var/data
 
 # 3. Configuration Nginx
 COPY docker/nginx/default.conf /etc/nginx/sites-available/default
