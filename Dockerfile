@@ -33,13 +33,25 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts --no-interactio
 COPY . .
 
 # 8. Création des dossiers et compilation
-ENV APP_ENV=prod
-
 # On définit une DATABASE_URL bidon pour empêcher Symfony de râler pendant le build
 # On vide aussi le cache avant pour être sûr de partir sur du propre
 RUN mkdir -p var/cache var/log var/sessions
 RUN chown -R www-data:www-data var/ || true
 RUN chmod -R 777 var/ || true
+RUN chmod -R 777 var/ || true
+
+ENV APP_ENV=prod
+ENV DATABASE_URL=postgresql://null:null@127.0.0.1:5432/null
+
+# 1. Télécharger les assets JS externes (Stimulus, Turbo, etc.)
+RUN php bin/console importmap:install
+
+# 2. Build de Tailwind (génère le CSS)
+RUN php bin/console tailwind:build --minify
+
+# 3. Compilation finale
+RUN php bin/console asset-map:compile
+
 # 1. On génère le binaire Tailwind et on build le CSS
 RUN php bin/console tailwind:build --minify
 RUN php bin/console asset-map:compile
