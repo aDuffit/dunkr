@@ -1,0 +1,33 @@
+<div{{ attributes }}>
+    <nav class="flex mb-6" aria-label="Breadcrumb">
+        <ol class="flex items-center">
+            {# Lien Racine (Fixe) #}
+            <li class="flex items-center">
+                <a href="{{ path('app_player_index') }}" class="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-indigo-600 transition-colors italic">
+                    Dunkr HQ
+                </a>
+            </li>
+
+            {# Boucle sur les liens dynamiques #}
+            {% for link in links %}
+                <li class="flex items-center">
+                    {# Séparateur Chevron #}
+                    <svg class="w-4 h-4 text-indigo-500 mx-1 italic" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+
+                    {% if link.url is defined %}
+                        <a href="{{ link.url }}" class="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-indigo-600 transition-colors italic">
+                            {{ link.label }}
+                        </a>
+                    {% else %}
+                        {# Dernier élément (actif) #}
+                        <span class="text-[10px] font-black uppercase tracking-widest text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded italic">
+                        {{ link.label }}
+                    </span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ol>
+    </nav>
+</div>

@@ -1,0 +1,79 @@
+{# templates/components/PlayerComparison.html.twig #}
+<div {{ attributes }} class="w-full">
+
+    {# Barre d'outils / Header #}
+    <div class="flex justify-between items-center mb-8">
+        <div>
+            <h2 class="text-4xl font-black text-slate-900 uppercase italic tracking-tighter">Player Profile</h2>
+            <p class="text-indigo-600 font-bold text-xs uppercase tracking-widest">Scouting Report v2.0</p>
+        </div>
+
+        <button
+                data-action="live#action"
+                data-live-action-param="toggleComparison"
+                class="group flex items-center gap-3 px-6 py-3 {{ isComparing ? 'bg-slate-800' : 'bg-indigo-600' }} text-white rounded-2xl font-black italic uppercase text-xs transition-all hover:scale-105 shadow-lg"
+        >
+            <span>{{ isComparing ? '✕ Close Comparison' : '⚡ Compare Player' }}</span>
+        </button>
+    </div>
+
+    {# Disposition Dynamique #}
+    <div class="grid grid-cols-1 {{ isComparing ? 'lg:grid-cols-3' : 'lg:grid-cols-2' }} gap-8 items-start transition-all duration-500">
+
+        {# --- COLONNE 1 : CARTE PRINCIPALE --- #}
+        <div class="{{ isComparing ? '' : 'lg:max-w-sm' }} mx-auto w-full">
+            {{ component('PlayerCard', { player: player, variant: 'gold' }) }}
+        </div>
+
+        {# --- COLONNE 2 : CHART (Et Select si mode comparaison) --- #}
+        <div class="bg-white p-8 rounded-[3rem] shadow-sm border border-slate-100">
+            <h3 class="text-center text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-6 italic">Performance Radar</h3>
+
+            <div class="mb-6">
+                {{ component('StatsRadar', { player1: player, player2: this.comparePlayer }) }}
+            </div>
+
+            {% if isComparing %}
+                <div class="mt-8 pt-8 border-t border-slate-100">
+                    <select data-model="compareId" class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 font-bold italic text-sm uppercase outline-none focus:border-indigo-600 transition-all">
+                        <option value="">Select a Rival...</option>
+                        {% for p in this.allPlayers %}
+                            <option value="{{ p.id }}">{{ p.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            {% endif %}
+        </div>
+
+        {# --- COLONNE 3 : CARTE RIVAL (Uniquement en mode comparaison) --- #}
+        {% if isComparing %}
+            <div class="animate-in slide-in-from-right-8 duration-300">
+                {% if this.comparePlayer %}
+                    {{ component('PlayerCard', { player: this.comparePlayer, variant: 'silver' }) }}
+                {% else %}
+                    <div class="aspect-[3/4.5] border-4 border-dashed border-slate-200 rounded-[2rem] flex items-center justify-center p-12 text-center text-slate-300 font-black italic uppercase text-[10px] tracking-widest">
+                        Waiting for rival selection...
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+
+    {# --- SECTION DU BAS : STATS DÉTAILLÉES --- #}
+    <div class="mt-12 grid grid-cols-1 {{ isComparing ? 'lg:grid-cols-3' : 'lg:grid-cols-2' }} gap-8">
+
+        {# Si on ne compare pas, on affiche les stats détaillées en large #}
+        <div class="{{ isComparing ? 'lg:col-span-3' : 'lg:col-span-2' }} bg-slate-900 rounded-[2.5rem] p-8 text-white shadow-2xl">
+            <div class="flex items-center justify-between mb-8">
+                <h3 class="text-xl font-black italic uppercase tracking-tighter">Detailed Analysis</h3>
+                <div class="h-1 flex-1 mx-8 bg-gradient-to-r from-indigo-500 to-transparent opacity-20"></div>
+            </div>
+
+            {# On réutilise le Breakdown mais en mode "Full" ou "Comparison" #}
+            {{ component('PerformanceMetrics', {
+                player1: player,
+                player2: this.comparePlayer
+            }) }}
+        </div>
+    </div>
+</div>
