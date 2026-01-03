@@ -52,7 +52,6 @@ RUN php bin/console tailwind:build --minify
 # 3. Compilation finale
 RUN php bin/console asset-map:compile
 
-# 1. On génère le binaire Tailwind et on build le CSS
 RUN php bin/console tailwind:build --minify
 RUN php bin/console asset-map:compile
 
