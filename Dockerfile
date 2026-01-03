@@ -56,10 +56,12 @@ RUN php bin/console tailwind:build --minify
 RUN php bin/console asset-map:compile
 
 # 9. Script de démarrage (Migrations + Nginx + FPM)
-RUN echo "#!/bin/sh\n\
-php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration\n\
-service php8.4-fpm start\n\
-nginx -g 'daemon off;'" > /usr/local/bin/start.sh && chmod +x /usr/local/bin/start.sh
+# ... tes étapes précédentes (compilation assets, etc.) ...
 
 EXPOSE 80
-CMD ["/usr/local/bin/start.sh"]
+
+# On lance les migrations ET les services directement ici
+# Le "&&" fait que si les migrations échouent, le serveur ne démarre pas (utile pour voir l'erreur dans les logs)
+CMD php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+CMD php-fpm -D
+CMD nginx -g "daemon off;"
