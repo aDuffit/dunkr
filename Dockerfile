@@ -56,6 +56,6 @@ EXPOSE 80
 # Le "&&" fait que si les migrations échouent, le serveur ne démarre pas (utile pour voir l'erreur dans les logs)
 CMD chown -R www-data:www-data /var/www/html/var && \
     chmod -R 777 /var/www/html/var && \
-    php bin/console doctrine:mi:mi --force && \
+    php bin/console doctrine:mi:mi && \
     php-fpm -D && \
     nginx -g "daemon off;"
