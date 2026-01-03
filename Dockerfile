@@ -32,9 +32,11 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts --no-interactio
 # 7. Copie du reste du projet
 COPY . .
 
-# 8. Droits et compilation des assets (AssetMapper)
-RUN chown -R www-data:www-data var/
-RUN php bin/console asset-map:compile
+# 8. Création forcée des dossiers var et fix des droits
+RUN mkdir -p var/cache var/log var/sessions \
+    && chown -R www-data:www-data var/ \
+    && chmod -R 777 var/ \
+    && php bin/console asset-map:compile
 
 # 9. Script de démarrage (Migrations + Nginx + FPM)
 RUN echo "#!/bin/sh\n\
