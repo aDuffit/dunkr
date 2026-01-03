@@ -41,7 +41,7 @@ RUN chmod -R 777 var/ || true
 RUN chmod -R 777 var/ || true
 
 ENV APP_ENV=prod
-ENV DATABASE_URL=postgresql://null:null@127.0.0.1:5432/null
+#ENV DATABASE_URL=postgresql://null:null@127.0.0.1:5432/null
 
 # 1. Télécharger les assets JS externes (Stimulus, Turbo, etc.)
 RUN php bin/console importmap:install
