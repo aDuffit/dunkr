@@ -32,13 +32,14 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts --no-interactio
 # 7. Copie du reste du projet
 COPY . .
 
-# 8. Création forcée des dossiers var et fix des droits
+# 8. Création des dossiers et compilation
 ENV APP_ENV=prod
 
-RUN mkdir -p var/cache var/log var/sessions \
-    && chown -R www-data:www-data var/ \
-    && chmod -R 777 var/ \
-    && php bin/console asset-map:compile
+# On définit une DATABASE_URL bidon pour empêcher Symfony de râler pendant le build
+# On vide aussi le cache avant pour être sûr de partir sur du propre
+RUN mkdir -p var/cache var/log var/sessions
+RUN chown -R www-data:www-data var/
+RUN php bin/console asset-map:compile
 
 # 9. Script de démarrage (Migrations + Nginx + FPM)
 RUN echo "#!/bin/sh\n\
