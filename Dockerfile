@@ -33,6 +33,8 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts --no-interactio
 COPY . .
 
 # 8. Création forcée des dossiers var et fix des droits
+ENV APP_ENV=prod
+
 RUN mkdir -p var/cache var/log var/sessions \
     && chown -R www-data:www-data var/ \
     && chmod -R 777 var/ \
