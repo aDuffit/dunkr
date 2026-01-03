@@ -16,7 +16,7 @@ final class ImportController extends AbstractController
     #[Route('/player', name: 'app_import_player', methods: ['GET'])]
     public function import(EntityManagerInterface $em, HttpClientInterface $client): Response
     {
-        $response = $client->request('GET', 'https://www.euroleaguebasketball.net/euroleague/stats/players/?size=1000&viewType=traditional&statisticMode=perGame&seasonCode=E2025&seasonMode=Single&sortDirection=descending', [
+        $response = $client->request('GET', 'https://www.basketball-reference.com/international/euroleague/2026_totals.html', [
             'headers' => [
                 'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
                 'Accept-Language' => 'en-US,en;q=0.9',
