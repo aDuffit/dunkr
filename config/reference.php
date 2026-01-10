@@ -1521,13 +1521,13 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  * }
  * @psalm-type UxIconsConfig = array{
  *     icon_dir?: scalar|null|Param, // The local directory where icons are stored. // Default: "%kernel.project_dir%/assets/icons"
- *     default_icon_attributes?: mixed, // Default attributes to add to all icons. // Default: {"fill":"currentColor"}
+ *     default_icon_attributes?: array<string, scalar|null|Param>,
  *     icon_sets?: array<string, array{ // the icon set prefix (e.g. "acme") // Default: []
  *         path?: scalar|null|Param, // The local icon set directory path. (cannot be used with 'alias')
  *         alias?: scalar|null|Param, // The remote icon set identifier. (cannot be used with 'path')
- *         icon_attributes?: list<mixed>,
+ *         icon_attributes?: array<string, scalar|null|Param>,
  *     }>,
- *     aliases?: list<scalar|null|Param>,
+ *     aliases?: array<string, string|Param>,
  *     iconify?: bool|array{ // Configuration for the remote icon service.
  *         enabled?: bool|Param, // Default: true
  *         on_demand?: bool|Param, // Whether to download icons "on demand". // Default: true

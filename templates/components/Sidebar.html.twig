@@ -1,0 +1,33 @@
+<div{{ attributes }}>
+    <aside
+            data-controller="sidebar"
+            data-sidebar-target="container"
+            class="bg-slate-900 text-white flex flex-col border-r border-slate-800 transition-all duration-300 ease-in-out w-64 h-full"
+    >
+        <div class="p-6 flex items-center justify-between overflow-hidden">
+            <span data-sidebar-target="label" class="text-2xl font-bold tracking-tighter text-orange-500">
+                DUNKR<span class="text-white">.PRO</span>
+            </span>
+
+            {# Le Bouton Toggle : il reste fixe ou se centre #}
+            <button data-action="sidebar#toggle" class="p-2 rounded-lg hover:bg-slate-800 text-slate-400 transition-colors shrink-0">
+                {# Icône quand ouvert #}
+                <div data-sidebar-target="iconOpen">
+                    <twig:ux:icon name="lucide:panel-left-close" class="w-6 h-6" />
+                </div>
+                {# Icône quand fermé #}
+                <div data-sidebar-target="iconClosed" class="hidden">
+                    <twig:ux:icon name="lucide:menu" class="w-6 h-6" />
+                </div>
+            </button>
+        </div>
+
+        <nav class="flex-1 px-4 space-y-2 mt-4">
+            <twig:NavLink url="/" icon="lucide:layout-dashboard" label="Dashboard" :active="true" />
+            <twig:NavLink url="{{ path('app_player_index') }}" icon="lucide:users" label="Scouting Players" />
+            <twig:NavLink url="/stats" icon="lucide:bar-chart-3" label="Advanced Stats" />
+            <twig:NavLink url="/compare" icon="lucide:arrow-left-right" label="Compare" />
+            <twig:NavLink url="/settings" icon="lucide:settings" label="Settings" />
+        </nav>
+    </aside>
+</div>

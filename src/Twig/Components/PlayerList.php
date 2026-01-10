@@ -18,7 +18,7 @@ final class PlayerList
     public string $query = '';
 
     #[LiveProp(writable: true, onUpdated: 'onSortFieldUpdated')]
-    public string $sortField = 'pointsAvg'; // Tri par défaut
+    public string $sortField = 'points'; // Tri par défaut
 
     #[LiveProp(writable: true)]
     public string $sortDirection = 'DESC';

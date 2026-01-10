@@ -39,7 +39,7 @@
         "symfony/translation": "8.0.*",
         "symfony/twig-bundle": "8.0.*",
         "symfony/ux-chartjs": "^2.31",
-        "symfony/ux-icons": "^2.31",
+        "symfony/ux-icons": "^2.32",
         "symfony/ux-live-component": "^2.31",
         "symfony/ux-turbo": "^2.31",
         "symfony/validator": "8.0.*",
@@ -111,5 +111,11 @@
         "symfony/stopwatch": "8.0.*",
         "symfony/web-profiler-bundle": "8.0.*",
         "zenstruck/foundry": "^2.8"
-    }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../ux-table"
+        }
+    ]
 }

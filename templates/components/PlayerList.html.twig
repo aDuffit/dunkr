@@ -1,127 +1,156 @@
-<div {{ attributes }} class="mx-auto">
+<div {{ attributes }} class="mx-auto bg-slate-950 min-h-screen p-4 md:p-8 text-slate-200">
 
-    {# --- SECTION RECHERCHE --- #}
-    <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 px-4">
+    {# --- HEADER SCOUT DATA --- #}
+    <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-800 pb-8">
         <div>
-            <h2 class="text-3xl font-black text-slate-800 uppercase italic tracking-tighter">Scouting Board</h2>
-            <p class="text-slate-500 font-bold text-xs uppercase">Dunkr Database / Live Stats</p>
+            <div class="flex items-center gap-2 mb-1">
+                <span class="w-3 h-3 bg-cyan-500 rounded-full animate-pulse"></span>
+                <h2 class="text-4xl font-black text-white uppercase italic tracking-tighter">
+                    Scout <span class="text-cyan-500">Data</span>
+                </h2>
+            </div>
+            <p class="text-slate-500 font-bold text-[10px] uppercase tracking-[0.3em]">Advanced Basketball Analytics / Live</p>
         </div>
 
         <div class="relative group">
             <input
-                type="search"
-                data-model="debounce(500)|query"
-                placeholder="{{ 'form.placeholder_search_player'|trans }}"
-                class="disabled:opacity-50 bg-white border-2 border-slate-200 rounded-full px-6 py-3 w-80 outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100 transition-all font-bold text-sm uppercase italic"
-                data-loading="addAttribute(disabled)"
+                    type="search"
+                    data-model="debounce(500)|query"
+                    placeholder="{{ 'form.placeholder_search_player'|trans }}"
+                    class="disabled:opacity-50 bg-slate-900 border-2 border-slate-800 rounded-lg px-10 py-3 w-full md:w-80 outline-none focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/10 transition-all font-mono text-sm uppercase"
+                    data-loading="addAttribute(disabled)"
             >
+            <div class="absolute left-3 top-3.5 text-slate-500">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </div>
             <div class="absolute right-4 top-3" data-loading="show">
                 <span class="animate-spin inline-block">🏀</span>
             </div>
         </div>
     </div>
 
-    {# --- TABLEAU STYLE FIFA --- #}
-    <div class="overflow-x-auto p-2">
-        <table class="w-full border-separate border-spacing-y-3">
+    {# --- TABLEAU STYLE TECHNIQUE --- #}
+    <div class="overflow-x-auto shadow-2xl rounded-xl">
+        <table class="w-full border-collapse">
             <thead>
-            <tr class="text-slate-400 text-[10px] uppercase tracking-[0.2em] font-black">
-                <th class="px-6 py-2 text-left">Player / Team</th>
+            <tr class="text-slate-500 text-[11px] uppercase tracking-widest font-bold bg-slate-900/50 border-y border-slate-800">
+                <th class="px-6 py-4 text-left">Player Information</th>
                 {# Colonne Triable PTS #}
-                <th class="px-6 py-2 text-center cursor-pointer group"
+                <th class="px-6 py-4 text-center cursor-pointer hover:text-cyan-400 transition-colors"
                     data-action="click->live#action"
                     data-live-action-param="changeSort"
-                    data-live-field-param="pointsAvg">
-                    <div class="flex items-center justify-center gap-1">
-                        PTS {% if sortField == 'pointsAvg' %}{{ sortDirection == 'DESC' ? '▼' : '▲' }}{% endif %}
+                    data-live-field-param="points">
+                    <div class="flex items-center justify-center gap-2">
+                        PTS
+                        <span class="text-[9px]">{{ sortField == 'points' ? (sortDirection == 'DESC' ? '▼' : '▲') : '⇅' }}</span>
                     </div>
                 </th>
-                <th class="px-6 py-2 text-center cursor-pointer group"
+                <th class="px-6 py-4 text-center cursor-pointer hover:text-cyan-400 transition-colors"
                     data-action="click->live#action"
                     data-live-action-param="changeSort"
-                    data-live-field-param="reboundsAvg">
-                    <div class="flex items-center justify-center gap-1">
-                        REB {% if sortField == 'reboundsAvg' %}{{ sortDirection == 'DESC' ? '▼' : '▲' }}{% endif %}
+                    data-live-field-param="rebounds">
+                    <div class="flex items-center justify-center gap-2">
+                        REB
+                        <span class="text-[9px]">{{ sortField == 'rebounds' ? (sortDirection == 'DESC' ? '▼' : '▲') : '⇅' }}</span>
                     </div>
                 </th>
-                <th class="px-6 py-2 text-center cursor-pointer group"
+                <th class="px-6 py-4 text-center cursor-pointer hover:text-cyan-400 transition-colors"
                     data-action="click->live#action"
                     data-live-action-param="changeSort"
-                    data-live-field-param="assistsAvg">
-                    <div class="flex items-center justify-center gap-1">
-                        AST {% if sortField == 'assistsAvg' %}{{ sortDirection == 'DESC' ? '▼' : '▲' }}{% endif %}
+                    data-live-field-param="assists">
+                    <div class="flex items-center justify-center gap-2">
+                        AST
+                        <span class="text-[9px]">{{ sortField == 'assists' ? (sortDirection == 'DESC' ? '▼' : '▲') : '⇅' }}</span>
                     </div>
                 </th>
-                <th class="px-6 py-2 text-right"></th>
+                <th class="px-6 py-4 text-right">Trend</th>
             </tr>
             </thead>
 
-            <tbody data-loading="addClass(opacity-50)">
+            <tbody data-loading="addClass(opacity-50)" class="divide-y divide-slate-800/50">
             {% for player in this.players %}
-                <tr class="bg-white hover:scale-[1.01] transition-all shadow-md group border border-transparent hover:border-indigo-300">
-                    <td class="px-6 py-4 rounded-l-2xl border-y border-l border-gray-100">
+                <tr class="bg-slate-900/20 hover:bg-cyan-500/5 transition-all group">
+                    <td class="px-6 py-4">
                         <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 bg-slate-800 text-yellow-400 rounded-lg flex items-center justify-center font-black text-xl italic border-b-4 border-yellow-500 shadow-inner">
-                                {{ (player.pointsAvg + player.reboundsAvg)|round }}
+                            {# Badge d'ovr style technique #}
+                            <div class="w-12 h-12 bg-slate-800 rounded flex flex-col items-center justify-center border border-slate-700 group-hover:border-cyan-500/50 transition-colors">
+                                <span class="text-[10px] text-slate-500 font-bold leading-none">OVR</span>
+                                <span class="text-xl font-black text-cyan-400 font-mono leading-none">{{ (player.points + player.rebounds)|round }}</span>
                             </div>
                             <div>
-                                <div class="font-black text-slate-800 uppercase italic text-lg leading-none">{{ player.name }}</div>
-                                <div class="text-[10px] text-indigo-500 font-black uppercase tracking-widest mt-1">{{ player.team }}</div>
+                                <div class="font-bold text-slate-100 uppercase tracking-tight text-base">{{ player.name }}</div>
+                                <div class="text-[10px] text-slate-500 font-mono uppercase mt-0.5">
+                                    <span class="text-cyan-600">TEAM //</span> {{ player.team }}
+                                </div>
                             </div>
                         </div>
                     </td>
 
-                    <td class="px-6 py-4 text-center border-y border-gray-100">
-                            <span class="text-lg font-black {{ player.pointsAvg > 20 ? 'text-green-500' : 'text-slate-700' }}">
-                                {{ player.pointsAvg|round(1) }}
+                    <td class="px-6 py-4 text-center">
+                        <div class="inline-block px-3 py-1 rounded bg-slate-800/50 border border-slate-700">
+                            <span class="text-lg font-mono font-black {{ player.points > 20 ? 'text-cyan-400' : 'text-slate-300' }}">
+                                {{ player.points|round(1) }}
                             </span>
+                        </div>
                     </td>
 
-                    <td class="px-6 py-4 text-center border-y border-gray-100 font-bold text-slate-600">
-                        {{ player.reboundsAvg|round(1) }}
+                    <td class="px-6 py-4 text-center font-mono text-sm text-slate-400">
+                        {{ player.rebounds|round(1) }}
                     </td>
 
-                    <td class="px-6 py-4 text-center border-y border-gray-100 font-bold text-slate-600">
-                        {{ player.assistsAvg|round(1) }}
+                    <td class="px-6 py-4 text-center font-mono text-sm text-slate-400">
+                        {{ player.assists|round(1) }}
                     </td>
 
-                    <td class="px-6 py-4 text-right rounded-r-2xl border-y border-r border-gray-100">
-                        <a href="{{ path('app_player_show', {id: player.id}) }}" class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-black italic text-xs uppercase hover:bg-slate-900 transition-colors">
-                            View Card
-                        </a>
+                    <td class="px-6 py-4 text-right">
+                        <div class="flex items-center justify-end gap-3">
+                            {# Petit graph de tendance statique #}
+                            <div class="flex items-end gap-0.5 h-4 mb-1">
+                                <div class="w-1 bg-slate-700 h-2"></div>
+                                <div class="w-1 bg-cyan-500 h-3"></div>
+                                <div class="w-1 bg-cyan-400 h-4"></div>
+                            </div>
+                            <a href="{{ path('app_player_show', {id: player.id}) }}" class="border border-slate-700 text-slate-300 hover:text-white hover:bg-cyan-600 hover:border-cyan-600 px-3 py-1.5 rounded text-[10px] font-bold uppercase tracking-tighter transition-all">
+                                Profile
+                            </a>
+                        </div>
                     </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="5" class="text-center py-10 text-slate-400 italic font-bold">Aucun joueur trouvé pour "{{ query }}"...</td>
+                    <td colspan="5" class="text-center py-20 bg-slate-900/10">
+                        <div class="text-slate-600 uppercase font-black italic tracking-widest text-sm">No Intel found for "{{ query }}"</div>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
 
-    {# --- PAGINATION STYLE FIFA --- #}
+    {# --- PAGINATION TECHNIQUE --- #}
     {% if this.totalPages > 1 %}
-        <div class="mt-8 flex items-center justify-center gap-4 pb-10">
-            <button
-                    data-action="live#update" data-model="debounce(0)|page" data-value="{{ page - 1 }}"
-                    {{ page <= 1 ? 'disabled' : '' }}
-                    class="cursor-pointer w-12 h-12 flex items-center justify-center bg-white border-2 border-slate-200 rounded-full hover:border-indigo-600 disabled:opacity-30 transition-all font-black"
-            >
-                ←
-            </button>
-
-            <div class="bg-white px-6 py-2 rounded-full border-2 border-slate-200 font-black italic text-sm uppercase tracking-tighter">
-                Page <span class="text-indigo-600">{{ page }}</span> / {{ this.totalPages }}
+        <div class="mt-8 flex items-center justify-between px-4">
+            <div class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">
+                Showing page {{ page }} of {{ this.totalPages }}
             </div>
 
-            <button
-                    data-action="live#update" data-model="debounce(0)|page" data-value="{{ page + 1 }}"
-                    {{ page >= this.totalPages ? 'disabled' : '' }}
-                    class="cursor-pointer w-12 h-12 flex items-center justify-center bg-white border-2 border-slate-200 rounded-full hover:border-indigo-600 disabled:opacity-30 transition-all font-black"
-            >
-                →
-            </button>
+            <div class="flex gap-2">
+                <button
+                        data-action="live#update" data-model="debounce(0)|page" data-value="{{ page - 1 }}"
+                        {{ page <= 1 ? 'disabled' : '' }}
+                        class="cursor-pointer px-4 py-2 bg-slate-900 border border-slate-800 rounded text-slate-400 hover:text-cyan-400 hover:border-cyan-400 disabled:opacity-10 transition-all font-bold text-xs"
+                >
+                    PREV_FILE
+                </button>
+
+                <button
+                        data-action="live#update" data-model="debounce(0)|page" data-value="{{ page + 1 }}"
+                        {{ page >= this.totalPages ? 'disabled' : '' }}
+                        class="cursor-pointer px-4 py-2 bg-slate-900 border border-slate-800 rounded text-slate-400 hover:text-cyan-400 hover:border-cyan-400 disabled:opacity-10 transition-all font-bold text-xs"
+                >
+                    NEXT_FILE
+                </button>
+            </div>
         </div>
     {% endif %}
 </div>
