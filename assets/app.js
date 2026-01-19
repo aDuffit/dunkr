@@ -6,3 +6,9 @@ import './stimulus_bootstrap.js';
  * which should already be in your base.html.twig.
  */
 import './styles/app.css';
+
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import {Chart, registerables} from 'chart.js';
+
+// On enregistre le plugin globalement
+Chart.register(...registerables, ChartDataLabels);

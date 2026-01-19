@@ -16,14 +16,8 @@ class Player
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $team = null;
-
     #[ORM\Column(options: ['default' => 0])]
     private int $points = 0;
-
-    #[ORM\Column(options: ['default' => 0])]
-    private int $rebounds = 0;
 
     #[ORM\Column(options: ['default' => 0])]
     private int $assists = 0;
@@ -70,6 +64,9 @@ class Player
     #[ORM\Column(options: ['default' => 0])]
     private int $personalFouls = 0;
 
+    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'players')]
+    private ?Team $team = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -87,18 +84,6 @@ class Player
         return $this;
     }
 
-    public function getTeam(): ?string
-    {
-        return $this->team;
-    }
-
-    public function setTeam(?string $team): static
-    {
-        $this->team = $team;
-
-        return $this;
-    }
-
     public function getPoints(): ?int
     {
         return $this->points;
@@ -107,18 +92,6 @@ class Player
     public function setPoints(int $points): static
     {
         $this->points = $points;
-
-        return $this;
-    }
-
-    public function getRebounds(): ?int
-    {
-        return $this->rebounds;
-    }
-
-    public function setRebounds(int $rebounds): static
-    {
-        $this->rebounds = $rebounds;
 
         return $this;
     }
@@ -301,5 +274,78 @@ class Player
         $this->personalFouls = $personalFouls;
 
         return $this;
+    }
+
+    public function getTeam(): ?Team
+    {
+        return $this->team;
+    }
+
+    public function setTeam(?Team $team): static
+    {
+        $this->team = $team;
+
+        return $this;
+    }
+
+    public function getRebounds(): ?int
+    {
+        return $this->getDefensiveRebounds() + $this->getOffensiveRebounds();
+    }
+
+    public function getMissedFieldGoals(): ?int
+    {
+        return $this->getFieldsGoalsAttempts() - $this->getFieldsGoals();
+    }
+
+    public function getMissedFreeThrows(): ?int
+    {
+        return $this->getFreeThrowsAttempts() - $this->getFreeThrows();
+    }
+
+    public function getEval(): ?int
+    {
+        return ($this->getPoints() + $this->getRebounds() + $this->getAssists()+ $this->getSteals() + $this->getBlocks())
+            - ($this->getTurnovers() + $this->getMissedFieldGoals() + $this->getMissedFreeThrows());
+    }
+
+    public function getTrueShootingPercent(): float
+    {
+        return $this->getPoints() / ($this->getFieldsGoalsAttempts() + 0.44 * $this->getFreeThrowsAttempts());
+    }
+
+    public function getPointsByGames(): float|int
+    {
+        return $this->getPoints() / $this->getGames();
+    }
+
+    public function getReboundsByGames(): float|int
+    {
+        return $this->getRebounds() / $this->getGames();
+    }
+
+    public function getAssistsByGames(): float|int
+    {
+        return $this->getAssists() / $this->getGames();
+    }
+
+    public function getStealsByGames(): float|int
+    {
+        return $this->getSteals() / $this->getGames();
+    }
+
+    public function getTurnoversByGames(): float|int
+    {
+        return $this->getTurnovers() / $this->getGames();
+    }
+
+    public function getBlocksByGames(): float|int
+    {
+        return $this->getBlocks() / $this->getGames();
+    }
+
+    public function getFieldGoalsPercent(): float
+    {
+        return round($this->getFieldsGoals() / $this->getFieldsGoalsAttempts() * 100, 2);
     }
 }

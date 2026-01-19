@@ -1,9 +1,5 @@
-form:
-  placeholder_search_player: "rechercher des joueurs (ex: Wembanyama)"
-player:
-  list:
-    name: nom
-    points-avg: points
-    rebounds-avg: rebonds
-    assists-avg: passes
-    no-result: aucun résultat
+nav.player: 'recherche de joueur'
+nav.compare: 'comparer des joueurs'
+site_name: dunkr
+form.placeholder_search_player: __form.placeholder_search_player
+btn.show: __btn.show

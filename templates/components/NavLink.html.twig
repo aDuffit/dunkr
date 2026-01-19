@@ -1,12 +1,7 @@
-<div{{ attributes }}>
-    <a href="{{ url }}"
-       class="flex items-center p-3 text-sm font-medium rounded-lg transition-colors {{ active ? 'bg-slate-800 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
-
-        {# Utilisation de ux:icon ici #}
-        <span class="w-8 flex justify-center">
-            <twig:ux:icon name="{{ icon }}" class="w-5 h-5 {{ active ? 'text-orange-500' : 'text-slate-400' }}" />
-        </span>
-
-        <span data-sidebar-target="label" class="ml-3 whitespace-nowrap"> {{ label }} </span>
+<li {{ attributes }}>
+    <a href="{{ url|default('#') }}" class="is-drawer-close:tooltip is-drawer-close:tooltip-right {{ active|default(false) ? 'text-orange-500' : 'text-slate-400' }}" data-tip="{{ label }}">
+        <!-- Home icon -->
+        <twig:ux:icon name="{{ icon }}" class="w-5 h-5 {{ active|default(false) ? 'text-orange-500' : 'text-slate-400' }}" />
+        <span class="is-drawer-close:hidden"> {{ label }} </span>
     </a>
-</div>
+</li>

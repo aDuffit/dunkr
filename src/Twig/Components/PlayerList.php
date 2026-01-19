@@ -3,6 +3,7 @@
 namespace App\Twig\Components;
 
 use App\Repository\PlayerRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
@@ -14,19 +15,20 @@ final class PlayerList
 {
     use DefaultActionTrait;
 
-    #[LiveProp(writable: true, onUpdated: 'onQueryUpdated')]
+    #[LiveProp(writable: true, onUpdated: 'onQueryUpdated', url: true)]
     public string $query = '';
 
-    #[LiveProp(writable: true, onUpdated: 'onSortFieldUpdated')]
+    #[LiveProp(writable: true, onUpdated: 'onSortFieldUpdated', url: true)]
     public string $sortField = 'points'; // Tri par défaut
 
-    #[LiveProp(writable: true)]
+    #[LiveProp(writable: true, url: true)]
     public string $sortDirection = 'DESC';
 
-    #[LiveProp(writable: true)]
+    #[LiveProp(writable: true, url: true)]
     public int $page = 1; // Page actuelle
 
-    private const PER_PAGE = 20; // Nombre de joueurs par page
+    private const int PER_PAGE = 20; // Nombre de joueurs par page
+    private const string ALIAS = 'player'; // Nombre de joueurs par page
 
     public function __construct(private readonly PlayerRepository $playerRepository) {}
 
@@ -44,11 +46,12 @@ final class PlayerList
 
     public function getPlayers(): array
     {
+        $qr = $this->playerRepository->createQueryBuilder(self::ALIAS);
+        $this->addWhereClause($qr);
+
         // On cherche les joueurs dont le nom contient la recherche
-        return $this->playerRepository->createQueryBuilder('p')
-            ->where('p.name LIKE :q')
-            ->setParameter('q', '%'.$this->query.'%')
-            ->orderBy('p.' . $this->sortField, $this->sortDirection)
+        return $qr
+            ->orderBy(sprintf('%s.%s', self::ALIAS, $this->sortField), $this->sortDirection)
             ->setFirstResult(($this->page - 1) * self::PER_PAGE)
             ->setMaxResults(self::PER_PAGE)
             ->getQuery()
@@ -58,14 +61,19 @@ final class PlayerList
     // Utile pour afficher "Page X sur Y"
     public function getTotalPages(): int
     {
-        $count = $this->playerRepository->createQueryBuilder('p')
-            ->select('COUNT(p.id)')
-            ->where('p.name LIKE :q')
-            ->setParameter('q', '%' . $this->query . '%')
-            ->getQuery()
-            ->getSingleScalarResult();
+        $qr = $this->playerRepository->createQueryBuilder(self::ALIAS)
+            ->select(sprintf('COUNT(%s.id)', self::ALIAS));
+        $this->addWhereClause($qr);
+        $count = $qr->getQuery()->getSingleScalarResult();
 
         return ceil($count / self::PER_PAGE);
+    }
+
+    private function addWhereClause(QueryBuilder $qr): void
+    {
+        $qr
+            ->where(sprintf('Upper(%s.name) LIKE :q', self::ALIAS))
+            ->setParameter('q', '%' . strtoupper($this->query) . '%');
     }
 
     public function onQueryUpdated(): void
