@@ -16,10 +16,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 #[AsCommand(
-    name: 'import-player',
-    description: 'Import des joueurs',
+    name: 'import-player-stat',
+    description: 'Import des statistiques de joueurs',
 )]
-class ImportPlayerCommand extends Command
+class ImportPlayerStatCommand extends Command
 {
     protected EntityManagerInterface $em;
 
@@ -47,7 +47,7 @@ class ImportPlayerCommand extends Command
         $progressBar->start();
 
         foreach ($leagues as $league) {
-            ImportService::importPlayerByLeague(
+            ImportService::importPlayerStatsByLeague(
                 $league,
                 $this->client,
                 $this->em,

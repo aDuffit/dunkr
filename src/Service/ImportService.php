@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\League;
 use App\Entity\Player;
 use App\Entity\Team;
+use App\Model\PlayerPositionEnum;
 use App\Repository\PlayerRepository;
 use App\Repository\TeamRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,7 +31,7 @@ class ImportService
         'blk' => 'setBlocks',
         'tov' => 'setTurnovers',
         'pf' => 'setPersonalFouls',
-        'pts' => 'setPoints'
+        'pts' => 'setPoints',
     ];
 
     const string defaultNotFoundValue = 'xPathNotFound';
@@ -39,7 +40,63 @@ class ImportService
     const string defaultGameColumnName = 'g';
     const string playerStatsUrl = '2026_totals';
 
-    public static function importPlayerByLeague(
+    public static function  importPlayerInformation(
+        Player $player,
+        HttpClientInterface $client,
+        EntityManagerInterface $em,
+    ): void {
+        $crawler = self::getCrawlerByUrl(
+            sprintf('https://www.basketball-reference.com%s', $player->getUrlEntryPoint()),
+            $client
+        );
+
+        $paragraphFounds = $crawler->filter('div#info div#meta div.nothumb p');
+
+        // On renseigne la date de naissance
+        $birthdateCrawler = $crawler->filter('div#info div#meta div.nothumb p span#necro-birth');
+
+        if ($birthdateCrawler->count() > 0) {
+            $birthdateStr = $birthdateCrawler->attr('data-birth');
+
+            if (!empty($birthdateStr)) {
+                $birthDate = \DateTime::createFromFormat('Y-m-d', $birthdateStr);
+                $player->setBirthDate($birthDate);
+            }
+        }
+
+        foreach ($paragraphFounds as $paragraphFound) {
+            $content = $paragraphFound->textContent;
+
+            // recherche des positions
+            if (preg_match('/Position:\s*([a-zA-Z]+)/i', $content, $matches)) {
+                $posMatch = trim($matches[1]);
+
+                $positions = PlayerPositionEnum::fromScrapedValue($posMatch);
+                $player->setPosition($positions);
+                continue;
+            }
+
+            // Cherche n'importe quel nombre suivi de 'cm'
+            preg_match('/(\d+)(?=cm)/', $content, $heightMatch);
+            $height = $heightMatch[1] ?? null;
+
+            if (null !== $height && ctype_digit($height)) {
+                $player->setHeight((int) $height);
+            }
+
+            // Cherche n'importe quel nombre suivi de 'kg'
+            preg_match('/(\d+)(?=kg)/', $content, $weightMatch);
+            $weight = $weightMatch[1] ?? null;
+
+            if (null !== $weight && ctype_digit($weight)) {
+                $player->setWeight((int) $weight);
+            }
+        }
+
+        $em->persist($player);
+    }
+
+    public static function importPlayerStatsByLeague(
         League $league,
         HttpClientInterface $client,
         EntityManagerInterface $em,
@@ -151,6 +208,7 @@ class ImportService
         }
 
         $player->setName($playerName);
+        $player->setUrlEntryPoint($row->filter('th[data-stat="player"] a')->attr('href'));
 
         // On renseigne les stats crawlées
         foreach (self::dataRowsName as $rowName => $setFnName) {

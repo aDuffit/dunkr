@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use App\Model\PlayerPositionEnum;
 use App\Repository\PlayerRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PlayerRepository::class)]
@@ -66,6 +68,21 @@ class Player
 
     #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'players')]
     private ?Team $team = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $height = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTime $birthdate = null;
+
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true, enumType: PlayerPositionEnum::class)]
+    private ?array $position = [];
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $urlEntryPoint = null;
+
+    #[ORM\Column(options: ['default' => 0])]
+    private float $weight = 0;
 
     public function getId(): ?int
     {
@@ -347,5 +364,68 @@ class Player
     public function getFieldGoalsPercent(): float
     {
         return round($this->getFieldsGoals() / $this->getFieldsGoalsAttempts() * 100, 2);
+    }
+
+    public function getHeight(): ?float
+    {
+        return $this->height;
+    }
+
+    public function setHeight(?float $height): static
+    {
+        $this->height = $height;
+
+        return $this;
+    }
+
+    public function getBirthdate(): ?\DateTime
+    {
+        return $this->birthdate;
+    }
+
+    public function setBirthdate(?\DateTime $birthdate): static
+    {
+        $this->birthdate = $birthdate;
+
+        return $this;
+    }
+
+    /**
+     * @return PlayerPositionEnum[]
+     */
+    public function getPosition(): array
+    {
+        return $this->position;
+    }
+
+    public function setPosition(array $position): static
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    public function getUrlEntryPoint(): ?string
+    {
+        return $this->urlEntryPoint;
+    }
+
+    public function setUrlEntryPoint(?string $urlEntryPoint): static
+    {
+        $this->urlEntryPoint = $urlEntryPoint;
+
+        return $this;
+    }
+
+    public function getWeight(): ?float
+    {
+        return $this->weight;
+    }
+
+    public function setWeight(float $weight): static
+    {
+        $this->weight = $weight;
+
+        return $this;
     }
 }

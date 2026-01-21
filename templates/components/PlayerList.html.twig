@@ -31,7 +31,7 @@
             <tr>
                 <th class="font-bold">{{ 'list.name'|trans({}, 'player') }}</th>
                 <th>{{ 'list.position'|trans({}, 'player') }}</th>
-                <th class="text-center"
+                <th class="text-center cursor-pointer"
                     data-action="click->live#action"
                     data-live-action-param="changeSort"
                     data-live-field-param="points">
@@ -40,7 +40,7 @@
                         <span class="text-[9px]">{{ sortField == 'points' ? (sortDirection == 'DESC' ? '▼' : '▲') : '⇅' }}</span>
                     </div>
                 </th>
-                <th class="text-center"
+                <th class="text-center cursor-pointer"
                     data-action="click->live#action"
                     data-live-action-param="changeSort"
                     data-live-field-param="offensiveRebounds">
@@ -49,7 +49,7 @@
                         <span class="text-[9px]">{{ sortField == 'offensiveRebounds' ? (sortDirection == 'DESC' ? '▼' : '▲') : '⇅' }}</span>
                     </div>
                 </th>
-                <th class="text-center"
+                <th class="text-center cursor-pointer"
                     data-action="click->live#action"
                     data-live-action-param="changeSort"
                     data-live-field-param="assists">
@@ -68,9 +68,9 @@
                 <tr class="hover">
                     <td>
                         <div class="flex items-center gap-3">
-                            <div class="avatar placeholder">
-                                <div class="bg-primary text-primary-content rounded-full w-10">
-                                    <span class="text-xs uppercase font-bold">{{ player.name|first|capitalize }}</span>
+                            <div class="avatar avatar-placeholder">
+                                <div class="bg-neutral text-neutral-content w-12 rounded-full">
+                                    <span class="text-3xl">{{ player.name|first|capitalize }}</span>
                                 </div>
                             </div>
                             <div>

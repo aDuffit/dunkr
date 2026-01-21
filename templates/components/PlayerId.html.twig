@@ -1,0 +1,43 @@
+<div{{ attributes }} class="card bg-base-100 shadow-xl border border-base-300">
+    <div class="avatar avatar-placeholder mx-auto mt-4">
+        <div class="bg-neutral text-neutral-content w-24 rounded-full">
+            <span class="text-xl">{{ player.name|slice(0, 2) }}</span>
+        </div>
+    </div>
+
+    <div class="card-body items-center text-center p-6">
+        <h2 class="card-title text-xl font-black leading-tight">{{ player.name }}</h2>
+        <div class="text-sm opacity-60 font-bold mb-2">{{ player.team.name }}</div>
+
+        {% if player.position|length > 0 %}
+            <div class="badge badge-primary badge-outline py-4 px-6 font-bold text-xs mb-6">
+                {% for pos in player.position %} {{ pos|trans }} {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="divider my-2"></div>
+
+        <div class="w-full space-y-3 text-left">
+            {% if player.birthdate %}
+                <div class="flex justify-between items-center">
+                    <span class="text-[10px] uppercase font-bold opacity-50">{{ 'id_card.birtdate'|trans({}, 'player') }}</span>
+                    <span class="font-mono font-bold"> {{ player.birthdate }} </span>
+                </div>
+            {% endif %}
+
+            {% if player.height %}
+                <div class="flex justify-between items-center">
+                    <span class="text-[10px] uppercase font-bold opacity-50">{{ 'id_card.height'|trans({}, 'player') }}</span>
+                    <span class="font-mono font-bold"> {{ player.height }} cm </span>
+                </div>
+            {% endif %}
+
+            {% if player.weight > 0 %}
+                <div class="flex justify-between items-center">
+                    <span class="text-[10px] uppercase font-bold opacity-50">{{ 'id_card.weight'|trans({}, 'player') }}</span>
+                    <span class="font-mono font-bold"> {{ player.weight }} Kg </span>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

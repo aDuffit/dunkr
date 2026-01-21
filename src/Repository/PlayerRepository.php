@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Player;
+use App\Model\PlayerCentileEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -23,13 +24,14 @@ class PlayerRepository extends ServiceEntityRepository
         $sql = '
         SELECT 
             id,
-            ROUND(PERCENT_RANK() OVER (ORDER BY (CAST(points AS DECIMAL) / NULLIF(games, 0)) ASC) * 100) as pts_centile,
-            ROUND(PERCENT_RANK() OVER (ORDER BY (CAST(blocks AS DECIMAL) / NULLIF(games, 0)) ASC) * 100) as blk_centile,
-            ROUND(PERCENT_RANK() OVER (ORDER BY (CAST(steals AS DECIMAL) / NULLIF(games, 0)) ASC) * 100) as stl_centile,ROUND(PERCENT_RANK() OVER (
+            ROUND(PERCENT_RANK() OVER (ORDER BY (CAST(points AS DECIMAL) / NULLIF(games, 0)) ASC) * 100) as ' . PlayerCentileEnum::points->value . ',
+            ROUND(PERCENT_RANK() OVER (ORDER BY (CAST(blocks AS DECIMAL) / NULLIF(games, 0)) ASC) * 100) as ' . PlayerCentileEnum::block->value . ',
+            ROUND(PERCENT_RANK() OVER (ORDER BY (CAST(steals AS DECIMAL) / NULLIF(games, 0)) ASC) * 100) as ' . PlayerCentileEnum::steal->value . ',
+            ROUND(PERCENT_RANK() OVER (
                 ORDER BY (CAST(fields_goals AS DECIMAL) / NULLIF(fields_goals_attempts, 0)) ASC
-            ) * 100) as fgs_centile,
-            ROUND(PERCENT_RANK() OVER (ORDER BY (CAST(offensive_rebounds + defensive_rebounds AS DECIMAL) / NULLIF(games, 0)) ASC) * 100) as reb_centile,
-            ROUND(PERCENT_RANK() OVER (ORDER BY (CAST(assists AS DECIMAL) / NULLIF(games, 0)) ASC) * 100) as ast_centile
+            ) * 100) as ' . PlayerCentileEnum::field_goal->value . ',
+            ROUND(PERCENT_RANK() OVER (ORDER BY (CAST(offensive_rebounds + defensive_rebounds AS DECIMAL) / NULLIF(games, 0)) ASC) * 100) as ' . PlayerCentileEnum::rebound->value . ',
+            ROUND(PERCENT_RANK() OVER (ORDER BY (CAST(assists AS DECIMAL) / NULLIF(games, 0)) ASC) * 100) as ' . PlayerCentileEnum::assist->value . '
         FROM player
     ';
 

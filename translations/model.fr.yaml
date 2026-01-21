@@ -1,0 +1,13 @@
+player_position:
+  point_guard: meneur
+  shooting_guard: arrière
+  small_forward: ailier
+  power_forward: ailier fort
+  center: pivot
+player_centile:
+  point: point
+  rebound: rebond
+  assist: passe
+  field_goal: efficacité
+  steal: interception
+  block: block
