@@ -1,0 +1,9 @@
+<div {{ attributes }} class="card bg-base-100 shadow-sm">
+    <div class="card-body">
+        <h2 class="card-title">{{ player.name }}</h2>
+        <p>Analyse des centiles par poste</p>
+    </div>
+    <figure>
+        {{ render_chart(this.chart) }}
+    </figure>
+</div>

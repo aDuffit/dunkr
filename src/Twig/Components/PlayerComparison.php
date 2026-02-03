@@ -4,9 +4,11 @@ namespace App\Twig\Components;
 
 use App\Entity\Player;
 use App\Form\ComparisonType;
+use App\Model\PlayerStatsEnum;
 use App\Repository\PlayerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
@@ -26,7 +28,8 @@ class PlayerComparison extends AbstractController
 
     public function __construct(
         private readonly ChartBuilderInterface $chartBuilder,
-        private readonly PlayerRepository $playerRepository
+        private readonly PlayerRepository $playerRepository,
+        private readonly TranslatorInterface $translator,
     ) {}
 
     protected function instantiateForm(): FormInterface
@@ -45,20 +48,23 @@ class PlayerComparison extends AbstractController
     {
         $form = $this->getForm();
         $p1 = $form->get('player1')->getData();
-        $p2 = $form->get('player2')->getData();
+
+        $p2 = null;
+        if ($form->has('player2')) {
+            $p2 = $form->get('player2')->getData();
+        }
 
         $chart = $this->chartBuilder->createChart(Chart::TYPE_RADAR);
 
-        // Configuration des données (même logique que précédemment)
+        $labels = [];
+        foreach (self::getStatsKey() as $key) {
+            $playerStatEnum = PlayerStatsEnum::from($key);
+
+            $labels[] = $playerStatEnum instanceof PlayerStatsEnum ? $playerStatEnum->trans($this->translator) : '--';
+        }
+
         $chart->setData([
-            'labels' => [
-                'Points par match',
-                'Assists',
-                'Rebonds',
-                'Blocks',
-                'pourcentage au shoot',
-                'Steals',
-            ],
+            'labels' => $labels,
             'datasets' => [
                 $this->getDataSets($p1),
                 $this->getDataSets($p2, '#22c55e', 'rgba(34, 197, 94, 0.2)'),
@@ -91,7 +97,6 @@ class PlayerComparison extends AbstractController
                     'ticks' => ['display' => false],
                     'suggestedMin' => 0,
                     'suggestedMax' => 100,
-
                 ]
             ]
         ]);
@@ -101,20 +106,22 @@ class PlayerComparison extends AbstractController
 
     public function getStatsByPlayer(?Player $player = null): array
     {
-        if (null === $player) {
-            return [50,50,50,50,50,50,50];
+        $data = [];
+        foreach (self::getStatsKey() as $key) {
+            $data[$key] = 50;
         }
 
-        $stats = $this->playerRepository->getCentilesForPlayer($player->getId());
+        if (null === $player) {
+            return array_values($data);
+        }
 
-        return [
-            $stats['pts_centile'],
-            $stats['ast_centile'],
-            $stats['reb_centile'],
-            $stats['blk_centile'],
-            $stats['fgs_centile'],
-            $stats['stl_centile'],
-        ];
+        $stats = $this->playerRepository->getAdvancedStats($player->getId());
+
+        foreach ($data as $key => $value) {
+            $data[$key] = $stats[$key];
+        }
+
+        return array_values($data);
     }
 
     public function getDataSets(
@@ -123,7 +130,7 @@ class PlayerComparison extends AbstractController
         string $backGroundColor = 'rgba(59, 130, 246, 0.2)'
     ): array {
         return [
-            'label' => $player ? $player->getName() : 'Joueur 1',
+            'label' => $player ? $player->getName() : $this->translator->trans('player', [], 'player'),
             'data' => $this->getStatsByPlayer($player),
             'borderColor' => $color,
             'backgroundColor' => $backGroundColor,
@@ -136,6 +143,24 @@ class PlayerComparison extends AbstractController
                 'color' => '#fff',
                 'font' => ['weight' => 'bold', 'size' => 10],
             ]
+        ];
+    }
+
+    public static function getStatsKey(): array
+    {
+        return [
+            PlayerStatsEnum::pts->value,
+            PlayerStatsEnum::usage_rate->value,
+            PlayerStatsEnum::fg_pct->value,
+            PlayerStatsEnum::three_pct->value,
+            PlayerStatsEnum::ft_pct->value,
+            PlayerStatsEnum::ast->value,
+            PlayerStatsEnum::ast_to_ratio->value,
+            PlayerStatsEnum::off_reb->value,
+            PlayerStatsEnum::def_reb->value,
+            PlayerStatsEnum::stl->value,
+            PlayerStatsEnum::blk->value,
+            PlayerStatsEnum::fouls_avoidance->value,
         ];
     }
 }

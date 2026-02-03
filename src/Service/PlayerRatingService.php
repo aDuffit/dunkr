@@ -3,45 +3,29 @@
 namespace App\Service;
 
 use App\Entity\Player;
+use App\Repository\PlayerRepository;
 
 class PlayerRatingService
 {
-    /**
-     * Calcule une note globale (Général) sur 100
-     */
-    public function getGlobalRating(Player $player): int
+    public static function getStrongPoints(Player $player, PlayerRepository $playerRepository)
     {
-        $score = ($player->getPointsAvg() * 2) + ($player->getReboundsAvg() * 1.5) + ($player->getAssistsAvg() * 1.5);
-        // On normalise : 40 pts/reb/ast cumulés = environ 90 de général
-        return (int) min(99, max(40, $score * 1.8));
-    }
+        // 1. Récupération des centiles (via la méthode SQL qu'on a créée ensemble)
+        $centiles = $playerRepository->getCentilesForPlayer($player->getId());
 
-    /**
-     * Retourne un grade (A+, B, etc.) selon une valeur et un max
-     */
-    public function getGrade(float $value, float $max): string
-    {
-        $ratio = $value / $max;
-        return match (true) {
-            $ratio >= 0.9 => 'A+',
-            $ratio >= 0.8 => 'A',
-            $ratio >= 0.7 => 'B+',
-            $ratio >= 0.6 => 'B',
-            $ratio >= 0.5 => 'C',
-            default => 'D',
-        };
-    }
+        // Calcul du meilleur centile pour le badge "Top %"
+        // On inverse : si centile est 92, il est dans le Top (100 - 92) = 8%
+        $maxCentile = max($centiles ?: [0]);
+        $topPercentage = 100 - $maxCentile;
 
-    /**
-     * Calcule le potentiel basé sur l'âge et les stats actuelles
-     */
-    public function getPotential(Player $player): int
-    {
-        $age = $player->getAge() ?? 20;
-        $base = $this->getGlobalRating($player);
-
-        // Plus le joueur est jeune, plus la marge de progression est grande
-        $bonus = max(0, (25 - $age) * 2);
-        return (int) min(99, $base + $bonus);
+        // Déterminer quelle est sa meilleure catégorie pour le texte du badge
+        $bestCategory = array_search($maxCentile, $centiles);
+        $categoryLabels = [
+            'pts_centile' => 'Points',
+            'reb_centile' => 'Rebonds',
+            'ast_centile' => 'Passes',
+            'blk_centile' => 'Contres',
+            'stl_centile' => 'Interceptions',
+            'fgs_centile' => 'Efficacité'
+        ];
     }
 }

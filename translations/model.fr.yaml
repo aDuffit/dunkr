@@ -1,13 +1,19 @@
-player_position:
-  point_guard: meneur
-  shooting_guard: arrière
-  small_forward: ailier
-  power_forward: ailier fort
-  center: pivot
-player_centile:
-  point: point
-  rebound: rebond
-  assist: passe
-  field_goal: efficacité
-  steal: interception
-  block: block
+player_position.point_guard: meneur
+player_position.shooting_guard: arrière
+player_position.small_forward: ailier
+player_position.power_forward: ailier fort
+player_position.center: pivot
+player_stats.point: point
+player_stats.rebound: rebond
+player_stats.assist: passe
+player_stats.field_goal: efficacité
+player_stats.steal: interception
+player_stats.block: block
+player_stats.usage_rate: utilisation
+player_stats.fg_pct: pourcentage aux tirs
+player_stats.three_pct: pourcentage 3 points
+player_stats.ft_pct: pourcentage lancer
+player_stats.ast_to_ratio: ration passe décisives/perte de balle
+player_stats.off_reb: rebonds offensifs
+player_stats.def_reb: rebonds défensifs
+player_stats.fouls_avoidance: faute commise

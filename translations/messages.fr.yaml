@@ -1,5 +1,5 @@
-nav.player: 'recherche de joueur'
-nav.compare: 'comparer des joueurs'
+nav.player: scouting
+nav.compare: comparer
 site_name: dunkr
-form.placeholder_search_player: __form.placeholder_search_player
-btn.show: __btn.show
+form.placeholder_search_player: chercher un joueur
+btn.show: voir

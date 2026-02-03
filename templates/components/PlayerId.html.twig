@@ -19,9 +19,10 @@
 
         <div class="w-full space-y-3 text-left">
             {% if player.birthdate %}
+                {% set age = date().diff(date(player.birthdate)).y %}
                 <div class="flex justify-between items-center">
-                    <span class="text-[10px] uppercase font-bold opacity-50">{{ 'id_card.birtdate'|trans({}, 'player') }}</span>
-                    <span class="font-mono font-bold"> {{ player.birthdate }} </span>
+                    <span class="text-[10px] uppercase font-bold opacity-50">{{ 'id_card.age'|trans({}, 'player') }}</span>
+                    <span class="font-mono font-bold"> {{ age }} </span>
                 </div>
             {% endif %}
 

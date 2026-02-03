@@ -3,7 +3,7 @@
 {% block title %}player{% endblock %}
 
 {% block body %}
-    <div class="flex flex-col lg:flex-row gap-6 p-4">
+    <div class="flex flex-col lg:flex-row gap-6 p-6">
 
         {# --- COLONNE GAUCHE (INFOS & BADGES) --- #}
         <div class="w-full lg:w-72 flex flex-col gap-4">
@@ -62,31 +62,7 @@
 
         {# --- ZONE DROITE (GRAPHIQUE PRINCIPAL) --- #}
         <div class="flex-1">
-            <div class="card bg-base-100 shadow-xl border border-base-300 h-full">
-
-                {# Header du Graphique (Large) #}
-                <div class="p-8 border-b border-base-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                    <div>
-                        <h1 class="text-4xl font-black tracking-tighter uppercase italic leading-none">{{ player.name }}</h1>
-                        <p class="text-sm font-bold opacity-40 mt-1 uppercase tracking-widest">Analyse des centiles par poste</p>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <div class="text-right hidden md:block">
-                            <p class="text-[10px] font-bold opacity-30 italic">{{ 'site_name'|trans }}</p>
-                            <p class="text-[10px] font-bold opacity-20 uppercase">Saison 2025-26</p>
-                        </div>
-                    </div>
-                </div>
-
-                {# Conteneur du Graphique #}
-                <div class="card-body p-2 md:p-10 flex items-center justify-center min-h-[550px]">
-                    <div class="w-full h-full relative">
-                        {{ render_chart(chart) }}
-
-                        <p class="text-[10px] font-bold opacity-20 uppercase">Un 85 signifie que le joueur est meilleur que 85% des joueurs à son poste en championnat, par match</p>
-                    </div>
-                </div>
-            </div>
+            <twig:PlayerChart :player="player" />
         </div>
     </div>
 {% endblock %}

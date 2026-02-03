@@ -34,6 +34,7 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts --no-interactio
 COPY . .
 
 # 8. Création des dossiers et compilation
+RUN cp -f .env.prod .env.local
 RUN mkdir -p var/cache var/log var/sessions
 RUN chown -R www-data:www-data var/ || true
 RUN chmod -R 777 var/ || true

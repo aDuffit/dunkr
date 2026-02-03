@@ -1,7 +1,6 @@
 <li {{ attributes }}>
-    <a href="{{ url|default('#') }}" class="is-drawer-close:tooltip is-drawer-close:tooltip-right {{ active|default(false) ? 'text-orange-500' : 'text-slate-400' }}" data-tip="{{ label }}">
-        <!-- Home icon -->
-        <twig:ux:icon name="{{ icon }}" class="w-5 h-5 {{ active|default(false) ? 'text-orange-500' : 'text-slate-400' }}" />
+    <a href="{{ url|default('#') }}" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="{{ label }}">
+        <twig:ux:icon class="my-1.5 inline-block size-4" name="{{ icon }}" />
         <span class="is-drawer-close:hidden"> {{ label }} </span>
     </a>
 </li>

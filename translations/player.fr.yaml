@@ -1,0 +1,12 @@
+player: joueur
+id_card.age: age
+id_card.height: taille
+id_card.weight: poids
+list.name: nom
+list.position: poste
+list.points: points
+list.offensive_rebounds: rebonds offensifs
+list.assists: passes
+list.progression: progression
+list.action: action
+list.no_results: pas de résultat

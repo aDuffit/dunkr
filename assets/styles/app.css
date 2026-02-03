@@ -3,21 +3,53 @@
     themes: light --default, dark --prefersdark, cupcake, abyss, business, corporate, synthwave;
 }
 
-/* Couleur pour le Joueur 1 (Primary) */
-.player1-select .ts-control {
-    border: 2px solid #3b82f6 !important; /* Bleu primary */
-    border-radius: 12px !important;
-    background-color: rgba(59, 130, 246, 0.05) !important;
-}
+body {
+    .border-primary .ts-control {
+        border-color: #3b82f6 !important;
+    }
+    .border-success .ts-control {
+        border-color: #22c55e !important;
+    }
+    .ts-wrapper, .ts-wrapper.single, .ts-wrapper.single.input-active, .ts-wrapper.multi {
 
-/* Couleur pour le Joueur 2 (Success) */
-.player2-select .ts-control {
-    border: 2px solid #22c55e !important; /* Vert success */
-    border-radius: 12px !important;
-    background-color: rgba(34, 197, 94, 0.05) !important;
-}
+        .ts-control {
+            background: var(--color-base-100);
+            box-shadow: none;
+            border-radius: var(--radius-field);
+            border-color: color-mix(in oklab, var(--color-base-content) 20%, #0000);
+            border-width: var(--border);
+            color: var(--color-base-content);
 
-/* Optionnel : couleur quand on clique (focus) */
-.player1-select .ts-wrapper.focus .ts-control {
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
+            input {
+                color: var(--color-base-content);
+            }
+        }
+
+        .ts-dropdown, .ts-dropdown .active {
+            background: var(--color-base-100);
+            box-shadow: none;
+            border-radius: var(--radius-field);
+            border-color: color-mix(in oklab, var(--color-base-content) 20%, #0000);
+            color: var(--color-base-content);
+        }
+    }
+
+    /*règle spéciale pour les select multi*/
+    .ts-wrapper.multi.plugin-remove_button:not(.rtl) {
+        .ts-control {
+            .item .remove {
+                border-left: 1px solid var(--color-base-content);
+            }
+
+            .item[data-value] {
+                box-shadow: none;
+                border-radius: var(--radius-field);
+                background: var(--color-base-100);
+                border-color: color-mix(in oklab, var(--color-base-content) 20%, #0000);
+                color: var(--input-color);
+                text-shadow: none;
+                @apply badge badge-soft
+            }
+        }
+    }
 }

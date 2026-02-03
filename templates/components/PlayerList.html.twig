@@ -1,19 +1,8 @@
-<div {{ attributes }}>
+<div {{ attributes }} class="p-4">
     {# --- Recherche --- #}
     <div>
         <label class="input">
-            <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <g
-                    stroke-linejoin="round"
-                    stroke-linecap="round"
-                    stroke-width="2.5"
-                    fill="none"
-                    stroke="currentColor"
-                >
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <path d="m21 21-4.3-4.3"></path>
-                </g>
-            </svg>
+            <twig:ux:icon name="lucide:user-search" />
             <input
                 type="search"
                 data-model="debounce(500)|query"
@@ -26,8 +15,8 @@
     </div>
 
     <div class="overflow-x-auto mt-2">
-        <table class="table table-zebra table-md w-full">
-            <thead class="bg-base-200/50 text-base-content/70">
+        <table class="table table-zebra">
+            <thead>
             <tr>
                 <th class="font-bold">{{ 'list.name'|trans({}, 'player') }}</th>
                 <th>{{ 'list.position'|trans({}, 'player') }}</th>
@@ -110,7 +99,6 @@
         </table>
     </div>
 
-    {# --- PAGINATION --- #}
     {% if this.totalPages > 1 %}
         <div class="flex justify-center mt-2">
             <div class="join">
