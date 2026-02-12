@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Autocomplete;
 
 use App\Entity\Player;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\UX\Autocomplete\Form\AsEntityAutocompleteField;
 use Symfony\UX\Autocomplete\Form\BaseEntityAutocompleteType;
 

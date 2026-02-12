@@ -3,19 +3,31 @@
 {% block title %}Hello MainController!{% endblock %}
 
 {% block body %}
-    <div
-            class="hero min-h-screen"
-            style="background-image: url(https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp);"
-    >
-        <div class="hero-overlay"></div>
-        <div class="hero-content text-neutral-content text-center">
+    <div class="hero bg-base-200 min-h-screen">
+        <div class="hero-content text-center">
             <div class="max-w-md">
-                <h1 class="mb-5 text-5xl font-bold">Hello there</h1>
-                <p class="mb-5">
-                    Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
-                    quasi. In deleniti eaque aut repudiandae et a id nisi.
-                </p>
-                <button class="btn btn-primary">Get Started</button>
+                <h1 class="text-5xl font-bold">{{ 'hello'|trans({}, 'main')|upper }}</h1>
+                <p class="py-6"> {{ 'desc'|trans({}, 'main')|capitalize }} </p>
+                <div>
+                    <a class="btn btn-primary" href="{{ path('app_player_search') }}">
+                        <twig:ux:icon name="lucide:chart-column" />
+                        {{ 'player_analyse_btn'|trans({}, 'main')|capitalize }}
+                    </a>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mt-6">
+                    <div>
+                        <div class="inline-grid *:[grid-area:1/1]">
+                            <div class="status status-error animate-ping"></div>
+                            <div class="status status-error"></div>
+                        </div> {{ 'analyse'|trans({}, 'main')|capitalize }}
+                    </div>
+                    <div>
+                        <div class="inline-grid *:[grid-area:1/1]">
+                            <div class="status status-info animate-ping"></div>
+                            <div class="status status-info"></div>
+                        </div> {{ 'interface'|trans({}, 'main')|capitalize }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

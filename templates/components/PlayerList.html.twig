@@ -1,5 +1,4 @@
 <div {{ attributes }} class="p-4">
-    {# --- Recherche --- #}
     <div>
         <label class="input">
             <twig:ux:icon name="lucide:user-search" />
@@ -48,7 +47,6 @@
                     </div>
                 </th>
                 <th>{{ 'list.progression'|trans({}, 'player') }}</th>
-                <th>{{ 'list.action'|trans({}, 'player') }}</th>
             </tr>
             </thead>
 
@@ -83,10 +81,6 @@
                             <span class="text-xs">80%</span>
                         </div>
                     </td>
-
-                    <th>
-                        <a class="btn btn-ghost btn-xs" href="{{ path('app_player_show', {id: player.id}) }}">{{ 'btn.show'|trans }}</a>
-                    </th>
                 </tr>
             {% else %}
                 <tr>
@@ -107,7 +101,7 @@
                         {{ page <= 1 ? 'disabled' : '' }}
                         class="join-item btn"><twig:ux:icon name="lucide:arrow-left" /></button>
 
-                <twig:Button class="join-item btn"> {{ page }} </twig:Button>
+                <button class="btn join-item"> {{ page }} </button>
 
                 <button
                         data-action="live#update" data-model="debounce(0)|page" data-value="{{ page + 1 }}"

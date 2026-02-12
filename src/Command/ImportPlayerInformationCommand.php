@@ -15,7 +15,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 #[AsCommand(
-    name: 'import-player-information',
+    name: 'import:player:information',
     description: 'Import des informations joueur',
 )]
 class ImportPlayerInformationCommand extends Command

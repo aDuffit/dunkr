@@ -3,5 +3,8 @@
 {% block title %}player{% endblock %}
 
 {% block body %}
-    <twig:PlayerComparison />
+    <twig:SearchPlayerInput loading="lazy" eventName="selectPlayer1" inputClass="input-error" class="mb-2" />
+    <twig:SearchPlayerInput loading="lazy" eventName="selectPlayer2" inputClass="input-success" />
+    <twig:PlayerCompareChart loading="lazy" class="mt-4" />
+    <twig:PlayerCompareTable loading="lazy" class="mt-4" />
 {% endblock %}

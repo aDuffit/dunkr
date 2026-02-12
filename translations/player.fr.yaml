@@ -1,12 +1,49 @@
 player: joueur
-id_card.age: age
-id_card.height: taille
-id_card.weight: poids
-list.name: nom
-list.position: poste
-list.points: points
-list.offensive_rebounds: rebonds offensifs
-list.assists: passes
-list.progression: progression
-list.action: action
-list.no_results: pas de résultat
+id_card:
+  age: age
+  height: taille
+  weight: poids
+list:
+  title: stats
+  tooltip: données par match
+  name: nom
+  position: poste
+  points: points
+  offensive_rebounds: rebonds offensifs
+  assists: passes
+  block: block
+  progression: progression
+  action: action
+  no_results: pas de résultat
+  rebounds: rebond
+form:
+  search_player_label: rechercher un joueur
+  search_player_placeholder: tapper le nom d'un joueur... (ex. Lighty, Hifi)
+detail:
+  no_player: aucun joueur
+  search_player: rechercher des joueurs
+  analyse_when_found: trouver un joueur pour accéder à l'analyse complète
+  only_europe: seulement les joueurs dans les compétitions européennes
+  birthdate: âge
+  height: taille
+  weight: poids
+  points:
+    strong: points forts
+    soft: points faibles
+  chart:
+    desc: "un 85 signifie que le joueur est meilleur que 85% des joueurs à son poste en championnat"
+compare:
+  title: Tableau comparatif
+  sub_title: Les données sont calculées par match
+  metrics: métrique par matchs
+  points: points
+  offensive_rebounds: rebonds offensifs
+  assists: passes
+  block: block
+  rebounds: rebond
+  steal: interception
+  percent_fg: '% tir réussis'
+  percent_3: '% tir 3 pts réussis'
+  percent_ft: '% lancer réussis'
+  ast_to_ratio: passes / pertes de balles ratio
+  fouls_commit: fautes commises

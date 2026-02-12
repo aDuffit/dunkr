@@ -1,0 +1,44 @@
+<div{{ attributes }}>
+    <div class="relative">
+        <label class="input {{ inputClass }} w-full relative">
+            {{ 'form.search_player_label'|trans({}, 'player') }}
+            <twig:ux:icon name="lucide:search" class="h-[1em] opacity-50" />
+            <input
+                    data-loading="addAttribute(disabled)"
+                    type="search"
+                    class="grow border-error"
+                    data-model="debounce(500)|query"
+                    placeholder="{{ 'form.search_player_placeholder'|trans({}, 'player') }}" />
+            <span class="loading loading-spinner opacity-50" data-loading></span>
+        </label>
+        <div class="absolute top-10 bg-base-100 shadow-md w-full z-10 rounded-none">
+            {% for player in this.players %}
+                <button
+                        data-action="live#action"
+                        data-live-action-param="selectPlayer"
+                        data-live-id-param="{{ player.id }}"
+                        data-live-name-param="{{ player.name }}"
+                        class="btn btn-ghost w-full rounded-none">
+
+                    <span class="text-left inline w-full">
+                        {{ player.name }}
+
+                        {% for position in player.position %}
+                            <span class="badge">{{ position|trans }}</span>
+                        {% endfor %}
+                    </span>
+
+                    {% if player.team %}
+                    <span class="opacity-50 text-right inline w-full">
+                        <twig:ux:icon name="lucide:map-pin" class="h-[1em] inline" /> {{ player.team.name }}
+                    </span>
+                    {% endif %}
+                </button>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% macro placeholder(props) %}
+    <div class="skeleton h-10 w-full"></div>
+{% endmacro %}

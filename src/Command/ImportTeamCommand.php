@@ -15,7 +15,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 #[AsCommand(
-    name: 'import-team',
+    name: 'import:team',
     description: 'Add a short description for your command',
 )]
 class ImportTeamCommand extends Command

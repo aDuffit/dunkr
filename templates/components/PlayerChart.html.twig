@@ -1,9 +1,20 @@
-<div {{ attributes }} class="card bg-base-100 shadow-sm">
-    <div class="card-body">
-        <h2 class="card-title">{{ player.name }}</h2>
-        <p>Analyse des centiles par poste</p>
+<div {{ attributes }}>
+    <div class="card bg-base-200 card-md shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title">{{ player.name }}</h2>
+            <p>
+                {% if player.team %}
+                     {{ player.team.name }}
+                {% endif %}
+
+                {% if player.age %}
+                     - {{ player.age }}
+                {% endif %}
+            </p>
+            <figure>
+                {{ render_chart(this.chart) }}
+            </figure>
+            <p class="opacity-50">{{ 'detail.chart.desc'|trans({}, 'player')|capitalize }}</p>
+        </div>
     </div>
-    <figure>
-        {{ render_chart(this.chart) }}
-    </figure>
 </div>

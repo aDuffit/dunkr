@@ -1,5 +1,9 @@
-nav.player: scouting
-nav.compare: comparer
+nav:
+  player: analyse
+  compare: comparer
+  rank: classement
 site_name: dunkr
-form.placeholder_search_player: chercher un joueur
-btn.show: voir
+form:
+  placeholder_search_player: chercher un joueur
+btn:
+  show: voir

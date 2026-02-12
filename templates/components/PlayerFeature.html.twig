@@ -1,0 +1,36 @@
+<div{{ attributes }}>
+    <div class="card card-md shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title text-success">
+                <twig:ux:icon name="lucide:arrow-up-right" /> {{ 'detail.points.strong'|trans({}, 'player')|capitalize }}
+            </h2>
+            <div>
+                {% for strongPoint in this.strongPoints %}
+                    {% if strongPoint != false %}
+                        <div class="badge badge-outline badge-success inline">{{ strongPoint|trans }}</div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-md shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title text-error">
+                <twig:ux:icon name="lucide:arrow-down-right" /> {{ 'detail.points.soft'|trans({}, 'player')|capitalize }}
+            </h2>
+            <div>
+                {% for softPoint in this.softPoints %}
+                    {% if softPoint != false %}
+                        <div class="badge badge-outline badge-error inline">{{ softPoint|trans }}</div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% macro placeholder(props) %}
+    <div class="skeleton h-10 w-full"></div>
+    <div class="skeleton h-10 w-full mt-2"></div>
+{% endmacro %}

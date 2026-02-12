@@ -52,7 +52,7 @@ class PlayerRepository extends ServiceEntityRepository
     /**
      * @throws Exception
      */
-    public function getAdvancedStats(int $playerId): array
+    public function getPercentileStats(int $playerId): array
     {
         $conn = $this->getEntityManager()->getConnection();
 

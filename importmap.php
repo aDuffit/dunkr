@@ -16,30 +16,30 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
-    '@hotwired/stimulus' => [
-        'version' => '3.2.2',
-    ],
     '@symfony/stimulus-bundle' => [
         'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
-    ],
-    '@hotwired/turbo' => [
-        'version' => '7.3.0',
     ],
     '@symfony/ux-live-component' => [
         'path' => './vendor/symfony/ux-live-component/assets/dist/live_controller.js',
     ],
+    '@hotwired/stimulus' => [
+        'version' => '3.2.2',
+    ],
+    '@hotwired/turbo' => [
+        'version' => '8.0.23',
+    ],
     'chart.js' => [
-        'version' => '4.0.1',
+        'version' => '4.5.1',
     ],
     'daisyui' => [
-        'version' => '5.5.14',
+        'version' => '5.5.17',
     ],
     'daisyui/daisyui.min.css' => [
-        'version' => '5.5.14',
+        'version' => '5.5.17',
         'type' => 'css',
     ],
     'tom-select' => [
-        'version' => '2.4.3',
+        'version' => '2.4.5',
     ],
     '@orchidjs/sifter' => [
         'version' => '1.1.0',
@@ -48,25 +48,28 @@ return [
         'version' => '1.1.2',
     ],
     'tom-select/dist/css/tom-select.default.min.css' => [
-        'version' => '2.4.3',
+        'version' => '2.4.5',
         'type' => 'css',
     ],
     'tom-select/dist/css/tom-select.default.css' => [
-        'version' => '2.4.3',
+        'version' => '2.4.5',
         'type' => 'css',
     ],
     'tom-select/dist/css/tom-select.bootstrap4.css' => [
-        'version' => '2.4.3',
+        'version' => '2.4.5',
         'type' => 'css',
     ],
     'tom-select/dist/css/tom-select.bootstrap5.css' => [
-        'version' => '2.4.3',
+        'version' => '2.4.5',
         'type' => 'css',
     ],
     'chartjs-plugin-datalabels' => [
         'version' => '2.2.0',
     ],
     'chart.js/helpers' => [
-        'version' => '4.0.1',
+        'version' => '4.5.1',
+    ],
+    '@kurkle/color' => [
+        'version' => '0.3.4',
     ],
 ];

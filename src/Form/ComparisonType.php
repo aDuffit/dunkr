@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Player;
+use App\Form\Autocomplete\PlayerAutocompleteField;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfonycasts\DynamicForms\DependentField;

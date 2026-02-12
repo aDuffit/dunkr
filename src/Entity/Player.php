@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Model\PlayerPositionEnum;
 use App\Repository\PlayerRepository;
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -73,7 +74,7 @@ class Player
     private ?float $height = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTime $birthdate = null;
+    private ?DateTime $birthdate = null;
 
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true, enumType: PlayerPositionEnum::class)]
     private ?array $position = [];
@@ -286,6 +287,11 @@ class Player
         return $this->personalFouls;
     }
 
+    public function getPersonalFoulsByGames(): ?int
+    {
+        return $this->getPersonalFouls() / $this->getGames();
+    }
+
     public function setPersonalFouls(int $personalFouls): static
     {
         $this->personalFouls = $personalFouls;
@@ -341,6 +347,11 @@ class Player
         return $this->getRebounds() / $this->getGames();
     }
 
+    public function getOffReboundsByGames(): float|int
+    {
+        return $this->getOffensiveRebounds() / $this->getGames();
+    }
+
     public function getAssistsByGames(): float|int
     {
         return $this->getAssists() / $this->getGames();
@@ -366,6 +377,16 @@ class Player
         return round($this->getFieldsGoals() / $this->getFieldsGoalsAttempts() * 100, 2);
     }
 
+    public function getThreeFieldGoalsPercent(): float
+    {
+        return round($this->getThreeFieldsGoals() / $this->getThreeFieldsGoalsAttempts() * 100, 2);
+    }
+
+    public function getFreeThrowFieldGoalsPercent(): float
+    {
+        return round($this->getFreeThrows() / $this->getFreeThrowsAttempts() * 100, 2);
+    }
+
     public function getHeight(): ?float
     {
         return $this->height;
@@ -378,12 +399,12 @@ class Player
         return $this;
     }
 
-    public function getBirthdate(): ?\DateTime
+    public function getBirthdate(): ?DateTime
     {
         return $this->birthdate;
     }
 
-    public function setBirthdate(?\DateTime $birthdate): static
+    public function setBirthdate(?DateTime $birthdate): static
     {
         $this->birthdate = $birthdate;
 
@@ -427,5 +448,21 @@ class Player
         $this->weight = $weight;
 
         return $this;
+    }
+
+    public function getAge(): ?int
+    {
+        if (null === $this->birthdate) {
+            return null;
+        }
+
+        $now = new DateTime();
+
+        return $now->diff($this->birthdate)->y;
+    }
+
+    public function getAsToRatio(): ?int
+    {
+        return $this->getAssists() / $this->getTurnovers();
     }
 }

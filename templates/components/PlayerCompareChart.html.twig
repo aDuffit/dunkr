@@ -1,0 +1,73 @@
+<div {{ attributes }}>
+    {% if player or player2 %}
+        <div class="card bg-base-200 card-md shadow-sm" data-loading="addClass(opacity-50)">
+            <div class="card-body">
+                <div class="grid grid-cols-3 gap-4">
+                        <div>
+                            {% if player %}
+                                <p class="text-error text-3xl">{{ player.name }}</p>
+                                <p>
+                                    {% if player.team %}
+                                        <twig:ux:icon name="lucide:map-pin" class="inline" />
+                                        {{ player.team.name }}
+                                    {% endif %}
+
+                                    {% if player.age %}
+                                        - {{ player.age }} ans
+                                    {% endif %}
+                                </p>
+                            {% endif %}
+                        </div>
+
+                    <div>
+                        {% if player2 and player %}
+                            <twig:ux:icon name="lucide:arrow-left-right" class="m-auto mt-5 h-[3rem]" />
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        {% if player2 %}
+                            <p class="text-right text-success text-3xl">{{ player2.name }}</p>
+                            <p class="text-right">
+                                {% if player2.team %}
+                                    <twig:ux:icon name="lucide:map-pin" class="inline" />
+                                    {{ player2.team.name }}
+                                {% endif %}
+
+                                {% if player2.age %}
+                                    - {{ player2.age }} ans
+                                {% endif %}
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+                <figure>
+                    {{ render_chart(this.chart) }}
+                </figure>
+                <p class="opacity-50">{{ 'detail.chart.desc'|trans({}, 'player')|capitalize }}</p>
+            </div>
+        </div>
+    {% else %}
+        <div class="hero" data-loading="addClass(opacity-50)">
+            <div class="hero-content text-center">
+                <div class="max-w-md">
+                    <div>
+                        <twig:ux:icon name="lucide:search" class="h-[7rem] w-[7rem] opacity-50 m-auto" />
+                    </div>
+                    <h1 class="text-5xl font-bold">{{ 'detail.search_player'|trans({}, 'player')|capitalize }}</h1>
+                    <p class="py-6">
+                        {{ 'detail.analyse_when_found'|trans({}, 'player')|capitalize }}
+                    </p>
+                    <div class="inline-grid *:[grid-area:1/1]">
+                        <div class="status status-error animate-ping"></div>
+                        <div class="status status-error"></div>
+                    </div> <span class="opacity-50"> {{ 'detail.only_europe'|trans({}, 'player')|capitalize }} </span>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+{% macro placeholder(props) %}
+    <div class="skeleton h-50 w-full"></div>
+{% endmacro %}

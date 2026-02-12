@@ -1,0 +1,37 @@
+<div{{ attributes }}>
+    {% if player %}
+        <div class="grid grid-cols-3 gap-4" data-loading="addClass(opacity-50)">
+            <div>
+                <twig:PlayerId :player="player"/>
+            </div>
+            <div class="col-span-2">
+                <twig:PlayerChart :player="player" />
+            </div>
+        </div>
+    {% else %}
+        <div class="hero" data-loading="addClass(opacity-50)">
+            <div class="hero-content text-center">
+                <div class="max-w-md">
+                    <div class="text-center">
+                        <twig:ux:icon name="lucide:database" class="h-[7rem] w-[7rem] opacity-50 m-auto" />
+                    </div>
+                    <h1 class="text-5xl font-bold">{{ 'detail.search_player'|trans({}, 'player')|capitalize }}</h1>
+                    <p class="py-6">
+                        {{ 'detail.analyse_when_found'|trans({}, 'player')|capitalize }}
+                    </p>
+                    <div class="inline-grid *:[grid-area:1/1]">
+                        <div class="status status-error animate-ping"></div>
+                        <div class="status status-error"></div>
+                    </div> <span class="opacity-50"> {{ 'detail.only_europe'|trans({}, 'player')|capitalize }} </span>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+{% macro placeholder(props) %}
+    <div class="grid grid-cols-4 gap-4">
+        <div class="skeleton h-32 w-full"></div>
+        <div class="skeleton h-32 w-full col-span-3"></div>
+    </div>
+{% endmacro %}

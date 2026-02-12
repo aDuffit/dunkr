@@ -16,7 +16,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 #[AsCommand(
-    name: 'import-player-stat',
+    name: 'import:player:stat',
     description: 'Import des statistiques de joueurs',
 )]
 class ImportPlayerStatCommand extends Command

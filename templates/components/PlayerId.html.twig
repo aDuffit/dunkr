@@ -1,44 +1,67 @@
-<div{{ attributes }} class="card bg-base-100 shadow-xl border border-base-300">
-    <div class="avatar avatar-placeholder mx-auto mt-4">
-        <div class="bg-neutral text-neutral-content w-24 rounded-full">
-            <span class="text-xl">{{ player.name|slice(0, 2) }}</span>
+<div {{ attributes }}>
+    <div class="card bg-base-100 card-md shadow-sm">
+        <div class="card-body m-auto">
+            <div class="avatar avatar-placeholder m-auto">
+                <div class="bg-neutral text-neutral-content w-24 rounded-full m-auto">
+                    <span class="text-3xl">{{ player.name|first|capitalize }}</span>
+                </div>
+            </div>
+
+            <p class="text-center"> {{ player.name }} </p>
+
+            {% if player.team %}
+                <p class="text-center">
+                    <twig:ux:icon name="lucide:map-pin" class="inline" /> {{ player.team.name }}
+                </p>
+            {% endif %}
+
+            {% if player.position %}
+                <div class="badge badge-outline badge-primary inline m-auto">
+                    {% for position in player.position %}
+                        {{ position|trans }} {% if loop.last == false %} / {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
     </div>
 
-    <div class="card-body items-center text-center p-6">
-        <h2 class="card-title text-xl font-black leading-tight">{{ player.name }}</h2>
-        <div class="text-sm opacity-60 font-bold mb-2">{{ player.team.name }}</div>
-
-        {% if player.position|length > 0 %}
-            <div class="badge badge-primary badge-outline py-4 px-6 font-bold text-xs mb-6">
-                {% for pos in player.position %} {{ pos|trans }} {% endfor %}
-            </div>
+    <ul class="list bg-base-100 rounded-box shadow-md mt-2">
+        {% if null != player.age %}
+            <li class="list-row">
+                <div><twig:ux:icon name="lucide:calendar" class="size-10" /></div>
+                <div>
+                    <div>{{ 'detail.birthdate'|trans({}, 'player') }}</div>
+                    <div class="text-xs uppercase font-semibold opacity-60">{{ player.age }} ans</div>
+                </div>
+            </li>
         {% endif %}
 
-        <div class="divider my-2"></div>
-
-        <div class="w-full space-y-3 text-left">
-            {% if player.birthdate %}
-                {% set age = date().diff(date(player.birthdate)).y %}
-                <div class="flex justify-between items-center">
-                    <span class="text-[10px] uppercase font-bold opacity-50">{{ 'id_card.age'|trans({}, 'player') }}</span>
-                    <span class="font-mono font-bold"> {{ age }} </span>
+        {% if null != player.height %}
+            <li class="list-row">
+                <div><twig:ux:icon name="lucide:arrow-up-narrow-wide" class="size-10" /></div>
+                <div>
+                    <div>{{ 'detail.height'|trans({}, 'player') }}</div>
+                    <div class="text-xs uppercase font-semibold opacity-60">{{ player.height }} kg</div>
                 </div>
-            {% endif %}
+            </li>
+        {% endif %}
 
-            {% if player.height %}
-                <div class="flex justify-between items-center">
-                    <span class="text-[10px] uppercase font-bold opacity-50">{{ 'id_card.height'|trans({}, 'player') }}</span>
-                    <span class="font-mono font-bold"> {{ player.height }} cm </span>
+        {% if player.weight > 0 %}
+            <li class="list-row">
+                <div><twig:ux:icon name="lucide:weight" class="size-10" /></div>
+                <div>
+                    <div>{{ 'detail.weight'|trans({}, 'player') }}</div>
+                    <div class="text-xs uppercase font-semibold opacity-60">{{ player.weight }} cm</div>
                 </div>
-            {% endif %}
+            </li>
+        {% endif %}
+    </ul>
 
-            {% if player.weight > 0 %}
-                <div class="flex justify-between items-center">
-                    <span class="text-[10px] uppercase font-bold opacity-50">{{ 'id_card.weight'|trans({}, 'player') }}</span>
-                    <span class="font-mono font-bold"> {{ player.weight }} Kg </span>
-                </div>
-            {% endif %}
+    <div class="card bg-base-100 card-md shadow-sm mt-2">
+        <div class="card-body m-auto">
+            <twig:PlayerSummary :player="player" />
         </div>
     </div>
+
+    <twig:PlayerFeature loading="lazy" :player="player" class="mt-2" />
 </div>

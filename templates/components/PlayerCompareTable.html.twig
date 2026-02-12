@@ -1,0 +1,172 @@
+<div{{ attributes }}>
+    <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100" data-loading="addClass(opacity-50)">
+        <table class="table">
+            <thead>
+            <tr class="bg-base-200">
+                <th colspan="3">
+                    <div class="flex items-center gap-3">
+                        <div>
+                            <div class="font-bold">{{ 'compare.title'|trans({}, 'player') }}</div>
+                            <div class="text-sm opacity-50">{{ 'compare.sub_title'|trans({}, 'player') }}</div>
+                        </div>
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <th>{{ 'compare.metrics'|trans({}, 'player') }}</th>
+                <th class="text-error">{% if player %} {{ player.name }} {% else %} - {% endif %}</th>
+                <th class="text-success">{% if player2 %} {{ player2.name }} {% else %} - {% endif %}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                {% set player1Win = false %}
+                {% if player and player2 %}
+                    {% set player1Win = player.pointsByGames >= player2.pointsByGames %}
+                {% endif %}
+                <th>{{ 'compare.points'|trans({}, 'player') }}</th>
+                <td class="{% if player1Win %}text-success{% else %}text-error{% endif %}">
+                    {% if player %} {{ player.pointsByGames|round(1) }} {% else %} - {% endif %}
+                </td>
+                <td class="{% if player1Win == false %}text-success{% else %}text-error{% endif %}">
+                    {% if player2 %} {{ player2.pointsByGames|round(1) }} {% else %} - {% endif %}
+                </td>
+            </tr>
+
+            <tr>
+                {% if player and player2 %}
+                    {% set player1Win = player.assistsByGames >= player2.assistsByGames %}
+                {% endif %}
+                <th>{{ 'compare.assists'|trans({}, 'player') }}</th>
+                <td class="{% if player1Win %}text-success{% else %}text-error{% endif %}">
+                    {% if player %} {{ player.assistsByGames|round(1) }} {% else %} - {% endif %}
+                </td>
+                <td class="{% if player1Win == false %}text-success{% else %}text-error{% endif %}">
+                    {% if player2 %} {{ player2.assistsByGames|round(1) }} {% else %} - {% endif %}
+                </td>
+            </tr>
+
+            <tr>
+                {% if player and player2 %}
+                    {% set player1Win = player.reboundsByGames >= player2.reboundsByGames %}
+                {% endif %}
+                <th>{{ 'compare.rebounds'|trans({}, 'player') }}</th>
+                <td class="{% if player1Win %}text-success{% else %}text-error{% endif %}">
+                    {% if player %} {{ player.reboundsByGames|round(1) }} {% else %} - {% endif %}
+                </td>
+                <td class="{% if player1Win == false %}text-success{% else %}text-error{% endif %}">
+                    {% if player2 %} {{ player2.reboundsByGames|round(1) }} {% else %} - {% endif %}
+                </td>
+            </tr>
+
+            <tr>
+                {% if player and player2 %}
+                    {% set player1Win = player.offReboundsByGames >= player2.offReboundsByGames %}
+                {% endif %}
+                <th>{{ 'compare.offensive_rebounds'|trans({}, 'player') }}</th>
+                <td class="{% if player1Win %}text-success{% else %}text-error{% endif %}">
+                    {% if player %} {{ player.offReboundsByGames|round(1) }} {% else %} - {% endif %}
+                </td>
+                <td class="{% if player1Win == false %}text-success{% else %}text-error{% endif %}">
+                    {% if player2 %} {{ player2.offReboundsByGames|round(1) }} {% else %} - {% endif %}
+                </td>
+            </tr>
+
+            <tr>
+                {% if player and player2 %}
+                    {% set player1Win = player.blocksByGames >= player2.blocksByGames %}
+                {% endif %}
+                <th>{{ 'compare.block'|trans({}, 'player') }}</th>
+                <td class="{% if player1Win %}text-success{% else %}text-error{% endif %}">
+                    {% if player %} {{ player.blocksByGames|round(1) }} {% else %} - {% endif %}
+                </td>
+                <td class="{% if player1Win == false %}text-success{% else %}text-error{% endif %}">
+                    {% if player2 %} {{ player2.blocksByGames|round(1) }} {% else %} - {% endif %}
+                </td>
+            </tr>
+
+            <tr>
+                {% if player and player2 %}
+                    {% set player1Win = player.asToRatio >= player2.asToRatio %}
+                {% endif %}
+                <th>{{ 'compare.ast_to_ratio'|trans({}, 'player') }}</th>
+                <td class="{% if player1Win %}text-success{% else %}text-error{% endif %}">
+                    {% if player %} {{ player.asToRatio|round(1) }} {% else %} - {% endif %}
+                </td>
+                <td class="{% if player1Win == false %}text-success{% else %}text-error{% endif %}">
+                    {% if player2 %} {{ player2.asToRatio|round(1) }} {% else %} - {% endif %}
+                </td>
+            </tr>
+
+            <tr>
+                {% if player and player2 %}
+                    {% set player1Win = player.stealsByGames >= player2.stealsByGames %}
+                {% endif %}
+                <th>{{ 'compare.steal'|trans({}, 'player') }}</th>
+                <td class="{% if player1Win %}text-success{% else %}text-error{% endif %}">
+                    {% if player %} {{ player.stealsByGames|round(1) }} {% else %} - {% endif %}
+                </td>
+                <td class="{% if player1Win == false %}text-success{% else %}text-error{% endif %}">
+                    {% if player2 %} {{ player2.stealsByGames|round(1) }} {% else %} - {% endif %}
+                </td>
+            </tr>
+
+            <tr>
+                {% if player and player2 %}
+                    {% set player1Win = player.fieldGoalsPercent >= player2.fieldGoalsPercent %}
+                {% endif %}
+                <th>{{ 'compare.percent_fg'|trans({}, 'player') }}</th>
+                <td class="{% if player1Win %}text-success{% else %}text-error{% endif %}">
+                    {% if player %} {{ player.fieldGoalsPercent|round(1) }} % {% else %} - {% endif %}
+                </td>
+                <td class="{% if player1Win == false %}text-success{% else %}text-error{% endif %}">
+                    {% if player2 %} {{ player2.fieldGoalsPercent|round(1) }} % {% else %} - {% endif %}
+                </td>
+            </tr>
+
+            <tr>
+                {% if player and player2 %}
+                    {% set player1Win = player.threeFieldGoalsPercent >= player2.threeFieldGoalsPercent %}
+                {% endif %}
+                <th>{{ 'compare.percent_3'|trans({}, 'player') }}</th>
+                <td class="{% if player1Win %}text-success{% else %}text-error{% endif %}">
+                    {% if player %} {{ player.threeFieldGoalsPercent|round(1) }} % {% else %} - {% endif %}
+                </td>
+                <td class="{% if player1Win == false %}text-success{% else %}text-error{% endif %}">
+                    {% if player2 %} {{ player2.threeFieldGoalsPercent|round(1) }} % {% else %} - {% endif %}
+                </td>
+            </tr>
+
+            <tr>
+                {% if player and player2 %}
+                    {% set player1Win = player.freeThrowFieldGoalsPercent >= player2.freeThrowFieldGoalsPercent %}
+                {% endif %}
+                <th>{{ 'compare.percent_ft'|trans({}, 'player') }}</th>
+                <td class="{% if player1Win %}text-success{% else %}text-error{% endif %}">
+                    {% if player %} {{ player.freeThrowFieldGoalsPercent|round(1) }} % {% else %} - {% endif %}
+                </td>
+                <td class="{% if player1Win == false %}text-success{% else %}text-error{% endif %}">
+                    {% if player2 %} {{ player2.freeThrowFieldGoalsPercent|round(1) }} % {% else %} - {% endif %}
+                </td>
+            </tr>
+
+            <tr>
+                {% if player and player2 %}
+                    {% set player1Win = player.personalFoulsByGames <= player2.personalFoulsByGames %}
+                {% endif %}
+                <th>{{ 'compare.fouls_commit'|trans({}, 'player') }}</th>
+                <td class="{% if player1Win %}text-success{% else %}text-error{% endif %}">
+                    {% if player %} {{ player.personalFoulsByGames|round(1) }} {% else %} - {% endif %}
+                </td>
+                <td class="{% if player1Win == false %}text-success{% else %}text-error{% endif %}">
+                    {% if player2 %} {{ player2.personalFoulsByGames|round(1) }} {% else %} - {% endif %}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% macro placeholder(props) %}
+    <div class="skeleton h-50 w-full"></div>
+{% endmacro %}

@@ -4,14 +4,27 @@
 }
 
 body {
-    .border-primary .ts-control {
-        border-color: #3b82f6 !important;
+    /*pb avec le loader*/
+    .ts-wrapper.loading {
+        mask-image: none;
+        mask-size: unset;
+        width: auto;
+        background: none;
+        aspect-ratio: unset;
+        .ts-control::after {
+            width: 25px;
+            height: 25px;
+            border: 3px solid color-mix(in oklab, var(--color-base-content) 20%, #0000);
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+            margin-top: -13px;
+        }
     }
-    .border-success .ts-control {
-        border-color: #22c55e !important;
-    }
-    .ts-wrapper, .ts-wrapper.single, .ts-wrapper.single.input-active, .ts-wrapper.multi {
 
+    .ts-wrapper, .ts-wrapper.single, .ts-wrapper.single.input-active, .ts-wrapper.multi {
         .ts-control {
             background: var(--color-base-100);
             box-shadow: none;
@@ -19,6 +32,7 @@ body {
             border-color: color-mix(in oklab, var(--color-base-content) 20%, #0000);
             border-width: var(--border);
             color: var(--color-base-content);
+            height: 40px;
 
             input {
                 color: var(--color-base-content);
@@ -51,5 +65,14 @@ body {
                 @apply badge badge-soft
             }
         }
+    }
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
     }
 }

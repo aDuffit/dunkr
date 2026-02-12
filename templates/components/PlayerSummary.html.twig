@@ -1,0 +1,22 @@
+<div {{ attributes }}>
+    <div class="grid grid-cols-2 gap-4">
+        <p>
+            {% if player.team and player.team.leagues %}
+                {{ player.team.leagues.first.name }}
+            {% endif %}
+        </p>
+
+        <div class="badge badge-outline">saison {{ "now"|date("Y") }}</div>
+    </div>
+
+    <div class="divider">
+        {{ 'list.title'|trans({}, 'player')|capitalize }}
+    </div>
+
+    <div class="grid grid-cols-4 gap-4">
+        <div> {{ 'list.points'|trans({}, 'player') }} <span class="badge">{{ player.pointsByGames|round(2) }}</span></div>
+        <div> {{ 'list.rebounds'|trans({}, 'player') }} <span class="badge">{{ player.reboundsByGames|round(2) }}</span></div>
+        <div> {{ 'list.assists'|trans({}, 'player') }} <span class="badge">{{ player.assistsByGames|round(2) }}</span></div>
+        <div> {{ 'list.block'|trans({}, 'player') }} <span class="badge">{{ player.blocksByGames|round(2) }}</span></div>
+    </div>
+</div>

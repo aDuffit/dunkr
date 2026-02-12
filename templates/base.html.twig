@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="cupcake">
+<html lang="fr" data-theme="corporate">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
@@ -14,27 +14,18 @@
 
     <body>
         <div class="drawer lg:drawer-open">
-            <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
+            <input id="my-drawer-4" type="checkbox" class="drawer-toggle" checked />
             <div class="drawer-content">
-                <div class="navbar bg-base-100 shadow-sm">
-                    <div class="flex-1">
-                        <label for="my-drawer-4" aria-label="open sidebar" class="btn btn-square btn-ghost">
-                            <twig:ux:icon name="lucide:sidebar-open" class="my-1.5 inline-block size-4" />
-                        </label>
-                        <a class="btn btn-ghost text-xl">{{ 'site_name'|trans|upper }}</a>
+                <main class="bg-base-100">
+                    <div class="p-4">
+                        {% block body %}{% endblock %}
                     </div>
-                    <div class="flex-none">
-                        <label class="toggle text-base-content">
-                            <input type="checkbox" value="synthwave" class="theme-controller" />
 
-                            <twig:ux:icon aria-label="sun" name="lucide:sun" class="h-5" />
-                            <twig:ux:icon aria-label="moon" name="lucide:moon" class="h-5" />
-                        </label>
-                    </div>
-                </div>
-
-                <main class="p-4 bg-base-300">
-                    {% block body %}{% endblock %}
+                    <footer class="footer sm:footer-horizontal footer-center bg-base-200 text-base-content p-4">
+                        <aside>
+                            <p><twig:ux:icon name="lucide:copyright" class="inline" /> {{ "now"|date("Y") }} {{ 'site_name'|trans|upper }}</p>
+                        </aside>
+                    </footer>
                 </main>
             </div>
 
@@ -42,9 +33,15 @@
                 <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay"></label>
                 <div class="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64">
                     <ul class="menu w-full grow">
-                        <twig:NavLink url="{{ path('app_player_index') }}" icon="lucide:user-search" label="{{ 'nav.player'|trans|capitalize }}" />
+                        <li>
+                            <label for="my-drawer-4" aria-label="open sidebar" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="{{ 'site_name'|trans|upper }}">
+                                <twig:ux:icon name="lucide:sidebar-open" class="my-1.5 inline-block size-4" />
+                                <a href="{{ path('app_main') }}" class="is-drawer-close:hidden">{{ 'site_name'|trans|upper }}</a>
+                            </label>
+                        </li>
+                        <twig:NavLink url="{{ path('app_player_search') }}" icon="lucide:user-search" label="{{ 'nav.player'|trans|capitalize }}" />
                         <twig:NavLink url="{{ path('app_player_compare') }}" icon="lucide:arrow-left-right" label="{{ 'nav.compare'|trans|capitalize }}" />
-                        <twig:NavLink url="/settings" icon="lucide:settings" label="Settings" />
+{#                        <twig:NavLink url="{{ path('app_player_ranking') }}" icon="lucide:award" label="{{ 'nav.rank'|trans|capitalize }}" />#}
                     </ul>
                 </div>
             </div>
